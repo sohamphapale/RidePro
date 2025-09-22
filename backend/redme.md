@@ -417,6 +417,202 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
-### Note
+## Captain Login
+## /captains/login
 
+### - Endpoint: `POST /captains/login`
+- Purpose: Authenticate an existing captain in the RidePro system. Validates input, checks credentials, and returns an authentication token and captain object.
 
+**Required data** (JSON body):
+
+- `email` (string) - required, must be a valid email address
+- `password` (string) - required, minimum 6 characters
+
+**Validation rules**
+
+- `email` must be a valid email (checked by express-validator in `src/routes/captain.routes.js`).
+- `password` must be at least 6 characters long.
+
+### Example request
+
+**POST** `/captains/login`
+
+**Request body (JSON):**
+```json
+{
+  "email": "jane.doe@example.com",
+  "password": "securepassword"
+}
+```
+
+### Success responses
+
+- **200 OK**
+  - **Description:** Captain successfully authenticated.
+  - **Body (JSON):**
+    - `token` (string): JWT token for authentication
+    - `captain` (object): authenticated captain object
+
+**Example response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "_id": "64f1c2e5b5d6c2a1b8e4d123",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicles": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Error responses
+
+- **400 Bad Request**
+  - **Description:** Input validation failed.
+  - **Body:** `{ "errors": [ ... ] }` (array of validation error objects from express-validator)
+
+**Example response:**
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be at least 6 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+- **401 Unauthorized**
+  - **Description:** Invalid email or password.
+  - **Body:** `{ "message": "Invalid email or password" }`
+
+**Example response:**
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+- **500 Internal Server Error**
+  - **Description:** Something went wrong on the server while authenticating the captain.
+
+**Example response:**
+```json
+{
+  "message": "Server error"
+}
+```
+
+---
+
+## Captain Profile
+## /captains/profile
+
+### - Endpoint: `GET /captains/profile`
+- Purpose: Retrieve the profile of the currently authenticated captain. Requires a valid JWT token for authentication.
+
+**Headers**
+
+- `Authorization` (string) - required, must be in the format `Bearer <token>`
+
+### Example request
+
+**GET** `/captains/profile`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Success responses
+
+- **200 OK**
+  - **Description:** Captain profile successfully retrieved.
+  - **Body (JSON):**
+    - `captain` (object): authenticated captain object
+
+**Example response:**
+```json
+{
+  "captain": {
+    "_id": "64f1c2e5b5d6c2a1b8e4d123",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicles": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Error responses
+
+- **401 Unauthorized**
+  - **Description:** Missing or invalid token.
+  - **Body:** `{ "message": "Unauthorized" }`
+
+**Example response:**
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## Captain Logout
+## /captains/logout
+
+### - Endpoint: `GET /captains/logout`
+- Purpose: Log out the currently authenticated captain by clearing the authentication token and blacklisting it to prevent reuse.
+
+**Headers**
+
+- `Authorization` (string) - optional, must be in the format `Bearer <token>` if not using cookies.
+
+### Example request
+
+**GET** `/captains/logout`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Success responses
+
+- **200 OK**
+  - **Description:** Captain successfully logged out.
+  - **Body (JSON):**
+    - `message` (string): Confirmation message
+
+**Example response:**
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+### Notes
