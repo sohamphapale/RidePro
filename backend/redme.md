@@ -196,4 +196,111 @@ Example request
 }
 ```
 
+## Get User Profile
+## /users/profile
+
+### - Endpoint: `GET /users/profile`
+- Purpose: Retrieve the profile of the currently authenticated user. Requires a valid JWT token for authentication.
+
+**Headers**
+
+- `Authorization` (string) - required, must be in the format `Bearer <token>`
+
+### Example request
+
+**GET** `/users/profile`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Success responses
+
+- **200 OK**
+  - **Description:** User profile successfully retrieved.
+  - **Body (JSON):**
+    - `user` (object): authenticated user object
+
+**Example response:**
+```json
+{
+  "user": {
+    "_id": "64f1c2e5b5d6c2a1b8e4d123",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "soketId": null
+  }
+}
+```
+
+### Error responses
+
+- **401 Unauthorized**
+  - **Description:** Missing or invalid token.
+  - **Body:** `{ "message": "Unauthorized" }`
+
+**Example response:**
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
 ### Notes
+
+- The `Authorization` header must contain a valid JWT token issued during login.
+
+### Cookies
+
+The application uses cookies to store the authentication token for user sessions. Below are the details:
+
+- **Name:** `token`
+- **Purpose:** Stores the JWT token for authenticating user requests.
+- **Path:** `/`
+- **HttpOnly:** `true` (prevents client-side JavaScript from accessing the cookie)
+- **Secure:** `true` (ensures the cookie is sent only over HTTPS, applicable in production environments)
+
+### Notes on Cookies
+
+- The `token` cookie is set during the login process (see `/users/login` endpoint).
+- The cookie is automatically sent with subsequent requests to the server, enabling session-based authentication.
+- Ensure that the `HttpOnly` and `Secure` flags are properly configured in production to enhance security.
+
+## Logout a user
+## /users/logout
+
+### - Endpoint: `GET /users/logout`
+- Purpose: Log out the currently authenticated user by clearing the authentication token and blacklisting it to prevent reuse.
+
+**Headers**
+
+- `Authorization` (string) - optional, must be in the format `Bearer <token>` if not using cookies.
+
+### Example request
+
+**GET** `/users/logout`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Success responses
+
+- **200 OK**
+  - **Description:** User successfully logged out.
+  - **Body (JSON):**
+    - `message` (string): Confirmation message
+
+**Example response:**
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+

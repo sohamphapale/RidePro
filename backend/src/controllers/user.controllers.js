@@ -1,13 +1,11 @@
 const userModel = require("../models/user.model");
 const { createUser } = require("../services/user.service");
 const { validationResult, check } = require("express-validator");
+const BlacklistToken = require("../models/backlistToken.model");
+
 
 // Create user
 exports.registerUser = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
   const { fullname, email, password } = req.body;
 
   const hashedPassword = await userModel.hashPassword(password);
@@ -24,12 +22,7 @@ exports.registerUser = async (req, res, next) => {
 };
 
 //login user
-exports.login = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
+exports.loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -38,7 +31,7 @@ exports.login = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    
+
     // Check if password matches
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
@@ -46,10 +39,24 @@ exports.login = async (req, res, next) => {
     }
 
     const token = await user.generateAuthToken();
-    
+    res.cookie("token", token);
     return res.status(200).json({ token, user });
-    
   } catch (err) {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+// get user profile
+exports.getUserProfile = async (req, res, next) => {
+  res.status(200).json({ user: req.user });
+};
+
+
+// logout user
+exports.logoutUser = async (req, res, next) => {
+  res.clearCookie("token");
+  const token = req.cookies.token || req.headers.authorization.split(' ')[1]; 
+
+  await BlacklistToken.create({ token }); // Store the token in the blacklist
+  res.status(200).json({ message: "Logged out successfully" }); 
+}
