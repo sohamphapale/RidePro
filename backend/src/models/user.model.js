@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const becrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
 
-
 const userSchema = new mongoose.Schema({
   fullname: {
     firstname: {
@@ -20,38 +19,39 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     minlength: [5, "Email must be at least 5 characters long"],
+    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
   },
   password: {
     type: String,
     required: true,
-    select: false
+    select: false,
   },
   soketId: {
     type: String,
   },
 });
 
-
 // generate auth token
-userSchema.methods.generateAuthToken = function (){
-    const token = JWT.sign({_id: this._id}, process.env.JWT_SECRET, { expiresIn: '24h' });
-    return token;
-}
-// compare password 
-userSchema.methods.comparePassword = async function (password){
-    return await becrypt.compare(password, this.password);
-}
+userSchema.methods.generateAuthToken = function () {
+  const token = JWT.sign({ _id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: "24h",
+  });
+  return token;
+};
+// compare password
+userSchema.methods.comparePassword = async function (password) {
+  return await becrypt.compare(password, this.password);
+};
 // hash password
-userSchema.statics.hashPassword = async function (password){
-    return await becrypt.hash(password, 10);
-} 
+userSchema.statics.hashPassword = async function (password) {
+  return await becrypt.hash(password, 10);
+};
 
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;
   return userObject;
 };
-
 
 const userModel = mongoose.model("user", userSchema);
 module.exports = userModel;

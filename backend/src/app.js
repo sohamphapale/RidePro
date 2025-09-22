@@ -12,10 +12,13 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const userRoutes = require("./routes/user.routes");
+const captainRoutes = require("./routes/captain.routes");
+
 
 app.get("/", (req, res) => {
   res.send("hello ");
 });
 app.use("/users", userRoutes);
+app.use("/captains", captainRoutes);
 
 module.exports = app;

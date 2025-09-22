@@ -303,4 +303,120 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
+## Register a Captain
+## /captains/register
+
+### - Endpoint: `POST /captains/register`
+- Purpose: Register a new captain in the RidePro system. Validates input, hashes the password, saves the captain to the database, and returns an authentication token and the created captain object.
+
+**Required data** (JSON body):
+
+- fullname: object
+  - firstname (string) - required, minimum 3 characters
+  - lastname (string) - optional, minimum 3 characters when present
+- email (string) - required, must be a valid email address
+- password (string) - required, minimum 6 characters
+- vehicles: object
+  - color (string) - required, minimum 3 characters
+  - plate (string) - required, minimum 3 characters
+  - capacity (number) - required, minimum 1
+  - vehicleType (string) - required, must be one of ["bike", "car", "auto"]
+
+**Validation rules**
+
+- `email` must be a valid email.
+- `fullname.firstname` First name must be at least 3 characters long.
+- `password` Password must be at least 6 characters long.
+- `vehicles.color` Color must be at least 3 characters long.
+- `vehicles.plate` Plate must be at least 3 characters long.
+- `vehicles.capacity` Capacity must be at least 1.
+- `vehicles.vehicleType` Type must be one of the following: bike, car, auto.
+
+### Example request
+
+**POST** `/captains/register`
+
+**Request body (JSON):**
+```json
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Doe"
+  },
+  "email": "jane.doe@example.com",
+  "password": "securepassword",
+  "vehicles": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Success responses
+
+- **201 Created**
+  - **Description:** Captain successfully registered.
+  - **Body (JSON):**
+    - `token` (string): JWT token for authentication
+    - `captain` (object): newly created captain object (password is excluded by model select:false)
+
+**Example response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "_id": "64f1c2e5b5d6c2a1b8e4d123",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicles": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Error responses
+
+- **400 Bad Request**
+  - **Description:** Input validation failed.
+  - **Body:** `{ "errors": [ ... ] }` (array of validation error objects from express-validator)
+
+**Example response:**
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "First name must be at least 3 characters long",
+      "param": "fullname.firstname",
+      "location": "body"
+    }
+  ]
+}
+```
+
+- **500 Internal Server Error**
+  - **Description:** Something went wrong on the server while creating the captain.
+
+**Example response:**
+```json
+{
+  "message": "Server error"
+}
+```
+
+### Note
+
 

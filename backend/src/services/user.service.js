@@ -21,6 +21,8 @@ module.exports.createUser = async ({
     });
     const savedUser = await user.save();
     return savedUser;
+    
+    
   } catch (error) {
     throw new Error("Error creating user", error);
   }

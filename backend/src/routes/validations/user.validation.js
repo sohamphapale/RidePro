@@ -19,13 +19,5 @@ const loginArr = [
     .withMessage("Password must be at least 6 characters long"),
 ];
 
-// Middleware to check for validation errors
-const checkValidation = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  next();
-};
 
-module.exports = { userArr, loginArr, checkValidation };
+module.exports = { userArr, loginArr };
