@@ -46,6 +46,11 @@ userSchema.statics.hashPassword = async function (password){
     return await becrypt.hash(password, 10);
 } 
 
+userSchema.methods.toJSON = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
 
 
 const userModel = mongoose.model("user", userSchema);
