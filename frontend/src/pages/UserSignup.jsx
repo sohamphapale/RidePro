@@ -9,7 +9,7 @@ const UserSignup = () => {
   const [userDate, setUserDate] = useState({});
   const handleSubmit = (e) => {
     e.preventDefault();
-    setUserDate({ firstName, lastName, email, password });
+    setUserDate({ fullName:{firstNamem, lastName}, email, password });
 
     setFirstName("");
     setLastName("");

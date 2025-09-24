@@ -9,11 +9,12 @@ const CaptainSignup = () => {
   const [captainDate, setCaptainDate] = useState({});
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCaptainDate({ firstName, lastName, email, password });
+    setCaptainDate({ fullName:{firstNamem, lastName}, email, password });
     setFirstName("")
     setLastName("")
     setEmail("");
     setPassword("");
+    setCaptainDate({})
   };
 
   return (
