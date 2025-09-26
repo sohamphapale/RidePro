@@ -1,21 +1,41 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, resolvePath, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/UserContext";
+import axios from "axios";
 
 const UserLogin = () => {
-    const [email, setemail] = useState('');
-    const [password, setpassword] = useState('');
-    const [userDate, setUserDate] = useState({});
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setUserDate({email, password})
-        setemail('');
-        setpassword('');
-        
+  const { user, setUser } = useContext(UserDataContext);
+  const [email, setemail] = useState("soham@gmail.com");
+  const [password, setpassword] = useState("abc123");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newUser = {
+      email,
+      password,
     };
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/login`,
+      newUser
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    }
+    console.log(user);
+
+    setemail("");
+    setpassword("");
+  };
 
   return (
     <div className="p-7 flex flex-col justify-between h-screen ">
-      <div >
+      <div>
         <img className="w-16 mb-10" src="ridepro_logo.png" alt="RidePro Logo" />
         <form className="" onSubmit={handleSubmit}>
           <h3 className="text-lg mb-3 font-medium">what's your email?</h3>
@@ -39,11 +59,19 @@ const UserLogin = () => {
           <button className="bg-[#111] text-white font-semibold mb-2 rounded px-4 py-2  w-full text-lg placeholder:text-base">
             Login
           </button>
-          <p className="text-center ">New here? <Link className='text-blue-600' to="/signup">Create an account</Link></p>
+          <p className="text-center ">
+            New here?{" "}
+            <Link className="text-blue-600" to="/signup">
+              Create an account
+            </Link>
+          </p>
         </form>
       </div>
       <div>
-        <Link to='/captain-login' className="  bg-[#10b461] flex  items-center justify-center text-white font-semibold mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base">
+        <Link
+          to="/captain-login"
+          className="  bg-[#10b461] flex  items-center justify-center text-white font-semibold mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base"
+        >
           Sign in as captain
         </Link>
       </div>
