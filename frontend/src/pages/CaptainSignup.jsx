@@ -5,7 +5,7 @@ import axios from "axios";
 
 const CaptainSignup = () => {
   const { captain, setCaptain } = useContext(CaptainDataContext);
-  const num = 8;
+  const num = "1";
   const navigate = useNavigate();
   const [email, setEmail] = useState(`${num}test_captain@gmail.com`);
   const [password, setPassword] = useState("ABC123");
@@ -47,7 +47,7 @@ const CaptainSignup = () => {
       console.log("====================================");
       setCaptain(data.captain);
       localStorage.setItem("token", data.token);
-      navigate("/home");
+      navigate("/captain-home");
       console.log(captain);
     }
 
@@ -175,7 +175,7 @@ const CaptainSignup = () => {
           </button>
           <p className="text-center ">
             Already have a account'?
-            <Link className="text-blue-600" to="/login">
+            <Link className="text-blue-600" to="/captain-login">
               Login here
             </Link>
           </p>

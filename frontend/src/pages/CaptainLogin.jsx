@@ -1,21 +1,40 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CaptainDataContext } from "../context/CaptainContext";
+import axios from "axios";
 
 const CaptainLogin = () => {
-    const [email, setemail] = useState('');
-    const [password, setpassword] = useState('');
-    const [captainData, setCaptainData] = useState({});
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setCaptainData({email, password})
-        setemail('');
-        setpassword('');
-        
+  const { captain, setCaptain } = useContext(CaptainDataContext);
+  const num = "";
+
+  const navigate = useNavigate();
+  const [email, setEmail] = useState(`${num}test_captain@gmail.com`);
+  const [password, setPassword] = useState("ABC123");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newCaptain = {
+      email,
+      password,
     };
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captains/login`,
+      newCaptain
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      setCaptain(data.captain);
+      localStorage.setItem("token", data.token);
+      navigate("/captain-home");
+      console.log(captain);
+    }
+
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <div className="p-7 flex flex-col justify-between h-screen ">
-      <div >
+      <div>
         <img className="w-16 mb-10" src="ridepro_logo.png" alt="RidePro Logo" />
         <form className="" onSubmit={handleSubmit}>
           <h3 className="text-lg mb-3 font-medium">what's your email?</h3>
@@ -23,7 +42,7 @@ const CaptainLogin = () => {
             required
             type="email"
             value={email}
-            onChange={(e) => setemail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             className="bg-[#eeeeee] mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base"
             placeholder="email@example.com"
           />
@@ -31,7 +50,7 @@ const CaptainLogin = () => {
           <input
             required
             value={password}
-            onChange={(e) => setpassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             type="password"
             className="bg-[#eeeeee] mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base"
             placeholder="password"
@@ -39,11 +58,19 @@ const CaptainLogin = () => {
           <button className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full text-lg placeholder:text-base">
             Login
           </button>
-          <p className="text-center ">Join a fleet? <Link className='text-blue-600' to="/captain-signup">Register as a Captain</Link></p>
+          <p className="text-center ">
+            Join a fleet?{" "}
+            <Link className="text-blue-600" to="/captain-signup">
+              Register as a Captain
+            </Link>
+          </p>
         </form>
       </div>
       <div>
-        <Link to='/captain-login' className="  bg-[#d5622d] flex  items-center justify-center text-white font-semibold mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base">
+        <Link
+          to="/captain-login"
+          className="  bg-[#d5622d] flex  items-center justify-center text-white font-semibold mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base"
+        >
           Sign in as User
         </Link>
       </div>
