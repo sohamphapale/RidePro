@@ -5,11 +5,13 @@ import UserLogin from "./pages/UserLogin.jsx";
 import UserSignup from "./pages/UserSignup.jsx";
 import CaptainLogin from "./pages/CaptainLogin.jsx";
 import CaptainSignup from "./pages/CaptainSignup.jsx";
-import Home from "./pages/Home.jsx";
 import UserProtecteWrapper from "./pages/UserProtecteWrapper.jsx";
 import UserLogout from "./pages/userLogout.jsx";
 import CaptainHome from "./pages/CaptainHome.jsx";
 import CaptainLogout from "./pages/CaptainLogout.jsx";
+import CaptainProtecteWrapper from "./pages/CaptainProtecteWrapper.jsx";
+import Home from "./pages/home/Home.jsx";
+import "remixicon/fonts/remixicon.css";
 const App = () => {
   return (
     <div>
@@ -33,9 +35,9 @@ const App = () => {
           exact
           path="/captain-home"
           element={
-            <UserProtecteWrapper>
+            <CaptainProtecteWrapper>
               <CaptainHome />
-            </UserProtecteWrapper>
+            </CaptainProtecteWrapper>
           }
         />
         <Route exact path="/logout" element={<UserLogout />} />
