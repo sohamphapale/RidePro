@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext } from "react";
 import LocationSearchPanel from "./components/LocationSearchPanel";
-import CarsPanel from "./components/CarsPanel";
+import ChooseVehiclePanle from "./components/ChooseVehiclePanle";
+import { PanelsDataContext } from "../../context/PanelsContext";
 
 const Home = () => {
+  const { setVehivlePanel } = useContext(PanelsDataContext);
+
   return (
     <div>
       <div className="h-screen relative">
@@ -12,14 +15,14 @@ const Home = () => {
           alt="RidePro Logo"
         />
 
-        <div className="h-screen w-screen">
+        <div className="h-screen w-screen ">
           {/* image for temporary */}
           <img className="h-full w-full object-cover" src="mapimg.gif" />
         </div>
         <LocationSearchPanel />
       </div>
       <div>
-        <CarsPanel />
+        <ChooseVehiclePanle />
       </div>
     </div>
   );

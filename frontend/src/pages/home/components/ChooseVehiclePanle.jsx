@@ -1,19 +1,40 @@
-import React from "react";
+import React, { useContext, useEffect,  useRef } from "react";
+import { PanelsDataContext } from "../../../context/PanelsContext";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+const ChooseVehiclePanle = () => {
+  
+  gsap.registerPlugin(useGSAP);
+  const { vehivlePanel } = useContext(PanelsDataContext);
 
-const CarsPanel = () => {
+  const vehivlePanelRef = useRef(null);
+  useEffect(() => {
+    if (vehivlePanel) {
+      gsap.to(vehivlePanelRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(vehivlePanelRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [vehivlePanel]);
+
   return (
-    <div>
-      <div className="fixed z-10 justify-end bottom-0 bg-white w-screen p-3">
-        <h3 className="text-2xl font-semibold p-">Choose a Vehicle</h3>
-        <div className="flex  items-center justify-between m-1 p-3 hover:border-2 hover:border-black rounded-xl">
+    <div className="h-screen w-screen top-0">
+      <div
+        ref={vehivlePanelRef}
+        className="fixed z-10 translate-y-full justify-end bottom-0 bg-white w-screen p-3 py-5"
+      >
+        <h3 className="text-2xl font-semibold  mb-5">Choose a Vehicle</h3>
+        <div className="flex  items-center justify-between m-1 p-3 border-2 border-gray-200   active:border-black rounded-xl">
           <img className="h-18 pr-2" src="RideProCarPng.webp" alt="" />
           <div className=" w-1/2">
             <h4 className="font-medium text-sm">
-              {" "}
-              RideGO{" "}
+              RideGO
               <span>
                 <i className="ri-user-3-fill"></i>4
-              </span>{" "}
+              </span>
             </h4>
             <h5 className="font- text-sm">2mins </h5>
             <p className="font-normal text-xs text-gray-600">
@@ -22,15 +43,14 @@ const CarsPanel = () => {
           </div>
           <h2 className="text-xl font-semibold">₹193.02</h2>
         </div>
-        <div className="flex  items-center justify-between m-1 p-3 hover:border-2 hover:border-black rounded-xl">
+        <div className="flex  items-center justify-between m-1 p-3 border-2 border-gray-200  active:border-black rounded-xl">
           <img className="h-12 pr-2" src="RideProAutoPng.webp" alt="" />
           <div className=" w-1/2">
             <h4 className="font-medium text-sm">
-              {" "}
-              Ride Auto{" "}
+              Ride Auto
               <span>
                 <i className="ri-user-3-fill"></i>4
-              </span>{" "}
+              </span>
             </h4>
             <h5 className="font- text-sm">5mins </h5>
             <p className="font-normal text-xs text-gray-600">
@@ -40,15 +60,14 @@ const CarsPanel = () => {
           <h2 className="text-xl font-semibold">₹118.68</h2>
         </div>
         {/* this is for Moto */}
-        <div className="flex  items-center justify-between m-1 p-3 hover:border-2 hover:border-black rounded-xl">
+        <div className="flex  items-center justify-between m-1 p-3 border-2 border-gray-200   active:border-black rounded-xl">
           <img className="h-12 pr-2" src="RideProMotoPng.webp" alt="" />
           <div className=" w-1/2">
             <h4 className="font-medium text-sm">
-              {" "}
-              Ride Moto{" "}
+              Ride Moto
               <span>
                 <i className="ri-user-3-fill"></i>1
-              </span>{" "}
+              </span>
             </h4>
             <h5 className="font- text-sm">3mins </h5>
             <p className="font-normal text-xs text-gray-600">
@@ -62,4 +81,4 @@ const CarsPanel = () => {
   );
 };
 
-export default CarsPanel;
+export default ChooseVehiclePanle;
