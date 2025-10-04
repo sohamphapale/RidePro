@@ -5,10 +5,17 @@ export const PanelsDataContext = createContext();
 const PanelsContext = ({ children }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [vehivlePanel, setVehivlePanel] = useState(false);
-
+  const [ConfirmeRide, setConfirmeRide] = useState(false);
   return (
     <PanelsDataContext.Provider
-      value={{ panelOpen, setPanelOpen, vehivlePanel, setVehivlePanel }}
+      value={{
+        panelOpen,
+        setPanelOpen,
+        vehivlePanel,
+        setVehivlePanel,
+        ConfirmeRide,
+        setConfirmeRide,
+      }}
     >
       {children}
     </PanelsDataContext.Provider>

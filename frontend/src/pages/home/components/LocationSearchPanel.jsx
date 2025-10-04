@@ -5,8 +5,14 @@ import gsap from "gsap";
 import { PanelsDataContext } from "../../../context/PanelsContext";
 
 const LocationSearchPanel = () => {
-  const { panelOpen, setPanelOpen, setVehivlePanel, vehivlePanel } =
-    useContext(PanelsDataContext);
+  const {
+    panelOpen,
+    setPanelOpen,
+    setVehivlePanel,
+    vehivlePanel,
+    ConfirmeRide,
+    setConfirmeRide,
+  } = useContext(PanelsDataContext);
   gsap.registerPlugin(useGSAP);
 
   const [pickup, setPickup] = useState("");
@@ -22,9 +28,6 @@ const LocationSearchPanel = () => {
       gsap.to(panelRef.current, {
         height: "75%",
       });
-      gsap.to(searchRef.current, {
-        height: "25%",
-      });
     } else {
       gsap.to(panelRef.current, {
         height: "0%",
@@ -33,8 +36,11 @@ const LocationSearchPanel = () => {
   }, [panelOpen]);
 
   const onclick = () => {
-    if(vehivlePanel) {
+    if (vehivlePanel) {
       setVehivlePanel(false);
+    }
+    if (ConfirmeRide) {
+      setConfirmeRide(false);
     }
   };
 
@@ -44,7 +50,7 @@ const LocationSearchPanel = () => {
         onClick={onclick}
         className=" flex flex-col justify-end h-screen overflow-hidden absolute top-0 w-full "
       >
-        <div ref={searchRef} className="h-[25%] p-4 bg-white relative ">
+        <div ref={searchRef} className="  p-4 bg-white relative ">
           {panelOpen ? (
             <h5
               onClick={() => setPanelOpen(false)}
@@ -90,7 +96,7 @@ const LocationSearchPanel = () => {
         </div>
 
         <div ref={panelRef} className="bg-white p-4 h-0">
-          <Locationsuggestions />
+          {panelRef && <Locationsuggestions />}
         </div>
       </div>
     </div>

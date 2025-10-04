@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import LocationSearchPanel from "./components/LocationSearchPanel";
 import ChooseVehiclePanle from "./components/ChooseVehiclePanle";
 import { PanelsDataContext } from "../../context/PanelsContext";
+import ConfirmeRidePanel from "./components/ConfirmeRidePanel";
 
 const Home = () => {
-  const { setVehivlePanel } = useContext(PanelsDataContext);
-
   return (
     <div>
       <div className="h-screen relative">
@@ -14,7 +13,6 @@ const Home = () => {
           src="ridepro_logo.png"
           alt="RidePro Logo"
         />
-
         <div className="h-screen w-screen ">
           {/* image for temporary */}
           <img className="h-full w-full object-cover" src="mapimg.gif" />
@@ -23,6 +21,9 @@ const Home = () => {
       </div>
       <div>
         <ChooseVehiclePanle />
+      </div>
+      <div>
+        <ConfirmeRidePanel />
       </div>
     </div>
   );
