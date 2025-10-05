@@ -50,7 +50,7 @@ const LocationSearchPanel = () => {
         onClick={onclick}
         className=" flex flex-col justify-end h-screen overflow-hidden absolute top-0 w-full "
       >
-        <div ref={searchRef} className="  p-4 bg-white relative ">
+        <div ref={searchRef} className="h-[23%]  p-4 bg-white relative ">
           {panelOpen ? (
             <h5
               onClick={() => setPanelOpen(false)}

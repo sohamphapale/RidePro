@@ -4,7 +4,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 const ChooseVehiclePanle = () => {
   gsap.registerPlugin(useGSAP);
-  const { vehivlePanel, setConfirmeRide } = useContext(PanelsDataContext);
+  const { vehivlePanel, setConfirmeRide, setVehivlePanel } =
+    useContext(PanelsDataContext);
 
   const vehivlePanelRef = useRef(null);
   useEffect(() => {
@@ -22,6 +23,7 @@ const ChooseVehiclePanle = () => {
 
   const onClick = () => {
     setConfirmeRide(true);
+    setVehivlePanel(false);
   };
 
   return (
@@ -96,3 +98,14 @@ const ChooseVehiclePanle = () => {
 };
 
 export default ChooseVehiclePanle;
+
+// general knowlagw
+// math
+// logical resning
+// english
+// marathi
+// history lakshamikant
+// giografy
+// NCRT
+// other
+//

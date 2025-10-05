@@ -3,6 +3,7 @@ import LocationSearchPanel from "./components/LocationSearchPanel";
 import ChooseVehiclePanle from "./components/ChooseVehiclePanle";
 import { PanelsDataContext } from "../../context/PanelsContext";
 import ConfirmeRidePanel from "./components/ConfirmeRidePanel";
+import VehicleFoundPanel from "./components/VehicleFoundPanel";
 
 const Home = () => {
   return (
@@ -18,12 +19,9 @@ const Home = () => {
           <img className="h-full w-full object-cover" src="mapimg.gif" />
         </div>
         <LocationSearchPanel />
-      </div>
-      <div>
         <ChooseVehiclePanle />
-      </div>
-      <div>
         <ConfirmeRidePanel />
+        <VehicleFoundPanel />
       </div>
     </div>
   );

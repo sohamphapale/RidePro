@@ -6,6 +6,7 @@ const PanelsContext = ({ children }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [vehivlePanel, setVehivlePanel] = useState(false);
   const [ConfirmeRide, setConfirmeRide] = useState(false);
+  const [vehicleFound, setVehicleFound] = useState(false);
   return (
     <PanelsDataContext.Provider
       value={{
@@ -15,6 +16,8 @@ const PanelsContext = ({ children }) => {
         setVehivlePanel,
         ConfirmeRide,
         setConfirmeRide,
+        vehicleFound,
+        setVehicleFound,
       }}
     >
       {children}
