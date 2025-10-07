@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import Locationsuggestions from "./Locationsuggestions";
+import Locationsuggestions from "./LocationSuggestions.jsx";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { PanelsDataContext } from "../../../context/PanelsContext";
@@ -12,6 +12,8 @@ const LocationSearchPanel = () => {
     vehivlePanel,
     ConfirmeRide,
     setConfirmeRide,
+    vehicleFound,
+    setVehicleFound,
   } = useContext(PanelsDataContext);
   gsap.registerPlugin(useGSAP);
 
@@ -41,6 +43,9 @@ const LocationSearchPanel = () => {
     }
     if (ConfirmeRide) {
       setConfirmeRide(false);
+    }
+    if (vehicleFound) {
+      setVehicleFound(false);
     }
   };
 

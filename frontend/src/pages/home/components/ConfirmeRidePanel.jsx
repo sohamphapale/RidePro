@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 const ConfirmeRidePanel = () => {
   gsap.registerPlugin(useGSAP);
   const ConfirmeRideRef = useRef(null);
-  const { ConfirmeRide, vehicleFound, setVehicleFound } =
+  const { ConfirmeRide, setConfirmeRide, setVehicleFound } =
     useContext(PanelsDataContext);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const ConfirmeRidePanel = () => {
             {/* location */}
             <div className="flex  items-center  m-1 p-3 border-b border-gray-200  ">
               <div className="w-[40px]">
-                <i class="ri-square-fill"></i>
+            <i className="ri-map-pin-fill"></i>
               </div>
               <div className="w-full  ">
                 <h4 className="text-xl font-bold">562/11-A</h4>
@@ -70,7 +70,7 @@ const ConfirmeRidePanel = () => {
             {/* near by */}
             <div className="flex  items-center  m-1 p-3 border-b border-gray-200 ">
               <div className="w-[40px]">
-                <i class="ri-square-fill"></i>
+                <i className="ri-square-fill"></i>
               </div>
               <div className="w-full ">
                 <h4 className="text-xl font-bold">Third Wave Coffee</h4>
@@ -83,7 +83,7 @@ const ConfirmeRidePanel = () => {
             {/* ride price */}
             <div className="flex  items-center  m-1 p-3 border-b border-gray-200  ">
               <div className="w-[40px]">
-                <i class="ri-bank-card-2-fill"></i>
+                <i className="ri-bank-card-2-fill"></i>
               </div>
               <div className="w-full ">
                 <h4 className="text-xl font-bold">₹193.20</h4>
@@ -95,7 +95,7 @@ const ConfirmeRidePanel = () => {
             <button
               onClick={btnClick}
               type="button"
-              class="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >
               Confirm
             </button>

@@ -8,7 +8,7 @@ import VehicleFoundPanel from "./components/VehicleFoundPanel";
 const Home = () => {
   return (
     <div>
-      <div className="h-screen relative">
+      <div className="h-screen relative overflow-hidden">
         <img
           className="w-16 absolute top-5 left-5"
           src="ridepro_logo.png"
