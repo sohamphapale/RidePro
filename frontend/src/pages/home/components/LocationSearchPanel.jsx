@@ -24,7 +24,6 @@ const LocationSearchPanel = () => {
   const submitHandler = (e) => {
     e.preventDefault();
   };
-
   useEffect(() => {
     if (panelOpen) {
       gsap.to(panelRef.current, {
@@ -36,6 +35,7 @@ const LocationSearchPanel = () => {
       });
     }
   }, [panelOpen]);
+
 
   const onclick = () => {
     if (vehivlePanel) {
@@ -109,3 +109,13 @@ const LocationSearchPanel = () => {
 };
 
 export default LocationSearchPanel;
+
+
+// web depelopment
+// youtube finnase youtube channel
+// flutter development and back end nodejs 
+// flutter nodejs express js mongodb
+// al ml code with harry
+// uber clone half
+// this is soham phapale
+  
