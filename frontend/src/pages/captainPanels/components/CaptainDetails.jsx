@@ -12,7 +12,7 @@ const CaptainDetails = () => {
         {/* we are working on this panel */}
 
         <div className="flex justify-center text-[#919191] items-center text-center  ">
-          <i class="ri-subtract-line s text-5xl"></i>
+          <i className="ri-subtract-line s text-5xl"></i>
         </div>
 
         <div className="flex justify-between py-2 items-center">
@@ -47,7 +47,7 @@ const CaptainDetails = () => {
         <div className="flex justify-center  mb-6 p-6  bg-yellow-400 rounded-2xl">
           <div className="flex flex-col w-full mx-1 justify-center text-center items-center">
             <div className="flex justify-center items-center m-2 w-full h-full ">
-              <i class="ri-time-line text-4xl text-[oklch(0.68_0.13_94.3)]"></i>
+              <i className="ri-time-line text-4xl text-[oklch(0.68_0.13_94.3)]"></i>
             </div>
             <h3 className="font-bold text-xl ">10.2</h3>
             <h5 className="font- text-xs font-medium text-[oklch(0.68_0.13_94.3)]">
