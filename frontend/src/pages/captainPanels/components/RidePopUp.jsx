@@ -1,10 +1,13 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { PanelsDataContext } from "../../../context/PanelsContext";
+import { Link, useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import OTPConfirm from "./OTPConfirm";
 
 const RidePopUp = () => {
   gsap.registerPlugin(useGSAP);
+  const [isOPTGet, setIsOPTGet] = useState(false);
   const RidePopUpRef = useRef(null);
   const { RidePopUpPanel, setRidePopUpPanel, setConfirmRidePopUpPanel } =
     useContext(PanelsDataContext);
@@ -40,7 +43,6 @@ const RidePopUp = () => {
           <div className="bg-radial from-[#276EF1] from-10%  w-full h-[3px]  rounded-b-full"></div>
           <div className="bg-radial from-[#276EF1] from-10%  w-full h-[3px]  rounded-b-full"></div>
         </div>
-
         {/* user info with name profile photo and distanc */}
         <div className="flex justify-between  my-3 px-3 items-center border-b border-gray-200  bg-gradient-to-tl from-red-500 via-orange-500 to-yellow-500 rounded-full">
           <div className="flex justify-between py-2 items-center">
@@ -68,7 +70,6 @@ const RidePopUp = () => {
             <h4 className="text-xl font-bold">2.2KM</h4>
           </div>
         </div>
-
         <div>
           {/* location */}
           <div className="flex  items-center  m-1 p-3 border-b border-gray-200  ">
@@ -106,23 +107,26 @@ const RidePopUp = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center mt-3">
-          <button
-            onClick={onConfirmClick}
-            type="button"
-            className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          >
-            Confirm
-          </button>
-
-          <button
-            onClick={() => setRidePopUpPanel(false)}
-            type="button"
-            className="w-2/3 text-white bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:focus:ring-yellow-800 shadow-lg shadow-yellow-500/50 dark:shadow-lg dark:shadow-yellow-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          >
-            Ignor
-          </button>
-        </div>
+        {isOPTGet ? (
+          <OTPConfirm />
+        ) : (
+          <div className="flex justify-center mt-3">
+            <button
+              onClick={() => setIsOPTGet(true)}
+              type="button"
+              className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Accept
+            </button>
+            <button
+              onClick={() => setRidePopUpPanel(false)}
+              type="button"
+              className="w-2/3 text-white bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:focus:ring-yellow-800 shadow-lg shadow-yellow-500/50 dark:shadow-lg dark:shadow-yellow-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Ignor
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -12,22 +12,19 @@ const ConfirmRidePopUp = () => {
   useEffect(() => {
     if (ConfirmRidePopUpPanel) {
       gsap.to(ConfirmRidePopUpRef.current, {
-        transform: "translateY(0)",
+        // transform: "translateY(0)",
       });
     } else {
       gsap.to(ConfirmRidePopUpRef.current, {
-        transform: "translateY(100%)",
+        // transform: "translateY(100%)",
       });
     }
   }, [ConfirmRidePopUpPanel]);
 
   return (
     <div className="  h-full w-screen top-0">
-      <div
-        ref={ConfirmRidePopUpRef}
-        className="translate-y-full fixed z-10 justify-end bottom-0 bg-white w-screen p-3 py-5"
-      >
-        thisis 
+      <div className="translate-y-full fixed z-10 justify-end bottom-0 bg-white w-screen p-3 py-5">
+        thisis
       </div>
     </div>
   );

@@ -3,9 +3,6 @@ import React from "react";
 const CaptainDetails = () => {
     
     
-    
-    
-    
   return (
     <div className="h-full w-screen top-0 overflow-hidden">
       <div className="fixed z-10  justify-end bottom-0 bg-white w-screen p-2 px-4 rounded-t-3xl">

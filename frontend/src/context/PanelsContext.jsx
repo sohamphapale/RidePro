@@ -9,6 +9,7 @@ const PanelsContext = ({ children }) => {
   const [vehicleFound, setVehicleFound] = useState(false);
   const [RidePopUpPanel, setRidePopUpPanel] = useState(true);
   const [ConfirmRidePopUpPanel, setConfirmRidePopUpPanel] = useState(false);
+  const [finishRidePanel, setFinishRidePanel] = useState(false);
 
   return (
     <PanelsDataContext.Provider
@@ -25,6 +26,8 @@ const PanelsContext = ({ children }) => {
         setRidePopUpPanel,
         ConfirmRidePopUpPanel,
         setConfirmRidePopUpPanel,
+        finishRidePanel,
+        setFinishRidePanel,
       }}
     >
       {children}
