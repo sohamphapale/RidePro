@@ -28,13 +28,10 @@ module.exports.getDistanceTime = async (req, res, next) => {
 module.exports.getAutoCompleteSuggestions = async (req, res, next) => {
   const { input } = req.query;
   try {
-    const suggestion = await getSuggestions(input); 
+    const suggestion = await getSuggestions(input);
     res.status(200).json(suggestion);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
-router

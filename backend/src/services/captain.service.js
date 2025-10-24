@@ -40,6 +40,7 @@ module.exports.createCaptain = async ({
         vehicleType,
       },
     });
+    
     const savedCaptain = await captain.save();
     return savedCaptain;
   } catch (error) {

@@ -43,4 +43,13 @@ const rideSchema = new mongoose.Schema({
   signeture: {
     type: String,
   },
+  otp: {
+    type: String,
+    select: false,
+    required: true,
+  },
 });
+
+const rideModel = mongoose.model("ride", rideSchema);
+
+module.exports = rideModel;
