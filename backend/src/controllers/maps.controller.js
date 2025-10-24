@@ -1,6 +1,7 @@
 const {
   getAddressCoordinate,
   getDistanceTimeSerice,
+  getSuggestions,
 } = require("../services/maps.service");
 
 module.exports.getCorrdinates = async (req, res, next) => {
@@ -18,10 +19,19 @@ module.exports.getDistanceTime = async (req, res, next) => {
     const { origin, destination } = req.query;
     const destanceTime = await getDistanceTimeSerice(origin, destination);
     res.status(200).json(destanceTime);
-    
-
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports.getAutoCompleteSuggestions = async (req, res, next) => {
+  const { input } = req.query;
+  try {
+    const suggestion = await getSuggestions(input); 
+    res.status(200).json(suggestion);
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

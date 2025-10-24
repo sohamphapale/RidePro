@@ -37,7 +37,7 @@ module.exports.getDistanceTimeSerice = async (origin, destination) => {
         throw new Error("No route found");
       }
       const element = response.data.rows[1].elements[0];
-      
+
       return element;
     }
   } catch (error) {
@@ -46,3 +46,24 @@ module.exports.getDistanceTimeSerice = async (origin, destination) => {
   }
 };
 
+module.exports.getSuggestions = async (input) => {
+  if (!input) {
+    throw new Error("query is required");
+  }
+  const apikey = process.env.GOOGLE_MAPS_API_KEY;
+  const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(
+    input
+  )}&key=${apikey}`;
+  try {
+    const response = await axios.get(url);    
+   
+    if (response.data.status === "OK") {
+      return response.data.predictions;
+    } else {
+      throw new Error("Unable to fetch suggestions");
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

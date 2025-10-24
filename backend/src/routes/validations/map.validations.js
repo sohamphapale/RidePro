@@ -15,4 +15,8 @@ const mapDistanceTimeArr = [
     .withMessage("Invalid destination"),
 ];
 
-module.exports = { mapgetCorrdinatesArr, mapDistanceTimeArr };
+const mapsuggestionsArr = [
+  query("input").isString().isLength({ min: 3 }).withMessage("Invalid input"),
+];
+
+module.exports = { mapgetCorrdinatesArr, mapDistanceTimeArr, mapsuggestionsArr };
