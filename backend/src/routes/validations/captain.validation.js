@@ -1,7 +1,5 @@
 const { body, validationResult } = require("express-validator");
 
-
-
 // Validations for user registration -> users/register
 const captainValidations = [
   body("email").isEmail().withMessage("Invalid email"),
@@ -17,12 +15,12 @@ const captainValidations = [
   body("vehicles.plate")
     .isLength({ min: 3 })
     .withMessage("Plate must be at least 3 characters long"),
-    body("vehicles.capacity")
+  body("vehicles.capacity")
     .isInt({ min: 1 })
     .withMessage("Capacity must be at least 1"),
   body("vehicles.vehicleType")
-    .isIn(["bike", "car", "auto"])
-    .withMessage("Type must be one of the following: bike, car, auto"),
+    .isIn(["moto", "car", "auto"])
+    .withMessage("Type must be one of the following: moto, car, auto"),
 ];
 
 const captionloginValidation = [
@@ -32,5 +30,6 @@ const captionloginValidation = [
     .withMessage("Password must be at least 6 characters long"),
 ];
 
-
 module.exports = { captainValidations, captionloginValidation };
+
+// "moto", "car", "auto";

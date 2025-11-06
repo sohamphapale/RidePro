@@ -9,7 +9,7 @@ const rideCreateArr = [
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid user destination locaiton"),
-  body("vehicleType")
+  body("vehicleType"  )
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid user destination locaiton"),

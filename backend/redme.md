@@ -320,7 +320,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   - color (string) - required, minimum 3 characters
   - plate (string) - required, minimum 3 characters
   - capacity (number) - required, minimum 1
-  - vehicleType (string) - required, must be one of ["bike", "car", "auto"]
+  - vehicleType (string) - required, must be one of ["moto", "car", "auto"]
 
 **Validation rules**
 
@@ -330,7 +330,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 - `vehicles.color` Color must be at least 3 characters long.
 - `vehicles.plate` Plate must be at least 3 characters long.
 - `vehicles.capacity` Capacity must be at least 1.
-- `vehicles.vehicleType` Type must be one of the following: bike, car, auto.
+- `vehicles.vehicleType` Type must be one of the following: moto, car, auto.
 
 ### Example request
 
@@ -626,11 +626,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 **Required data** (JSON body):
 - `pickup` (string) - required, the pickup location.
 - `destination` (string) - required, the destination location.
-- `vehicleType` (string) - required, type of vehicle (e.g., `auto`, `car`, `motorcycle`)
+- `vehicleType` (string) - required, type of vehicle (e.g., `auto`, `car`, `moto`)
 
 **Validation rules**:
 - `pickup` and `destination` must be non-empty strings.
-- `vehicleType` must be one of the allowed types (`auto`, `car`, `motorcycle`)
+- `vehicleType` must be one of the allowed types (`auto`, `car`, `moto`)
 
 **Example request**:
 ```json
@@ -709,14 +709,14 @@ Body:
 **Success responses**:
 - **200 OK**
   - **Description**: Fare estimates successfully calculated.
-  - **Body (JSON)**: An object containing fare estimates per vehicle type. Example keys: `auto`, `car`, `motorcycle` (numeric values).
+  - **Body (JSON)**: An object containing fare estimates per vehicle type. Example keys: `auto`, `car`, `moto` (numeric values).
 
 **Example response**:
 ```json
 {
   "auto": 120.5,
   "car": 180.75,
-  "motorcycle": 90.3
+  "moto": 90.3
 }
 ```
 

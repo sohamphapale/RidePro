@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { PanelsDataContext } from "../../../context/PanelsContext";
-
+import axios from "axios";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 const ConfirmeRidePanel = () => {
+  const token = localStorage.getItem("token");
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+
   gsap.registerPlugin(useGSAP);
   const ConfirmeRideRef = useRef(null);
   const {
@@ -15,7 +18,7 @@ const ConfirmeRidePanel = () => {
     destLocation,
     pickLocation,
     destination,
-    pickup
+    pickup,
   } = useContext(PanelsDataContext);
 
   useEffect(() => {
@@ -30,16 +33,41 @@ const ConfirmeRidePanel = () => {
     }
   }, [ConfirmeRide]);
 
-  const btnClick = () => {
+  const createRide = async () => {
     setVehicleFound(true);
     setConfirmeRide(false);
+    console.log(
+      "pick:",
+      pickup,
+      "destination:",
+      destination,
+      "vehicle:",
+      ChooseVehicle
+    );
+
+    const response = await axios.post(
+      `${baseUrl}/ride/create`,
+      {
+        pickup: pickup,
+        destination: destination,
+        vehicleType: ChooseVehicle.type.toLowerCase(),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response);
   };
+
   return (
     <div>
       <div className="h-full w-screen top-0">
         <div
           ref={ConfirmeRideRef}
-          className="fixed z-10 translate-y-full justify-end bottom-0 bg-white w-screen p-3 py-5"
+          className="fixed z-9 translate-y-full justify-end bottom-0 bg-white w-screen p-3 py-5"
         >
           <h3 className="text-2xl font-semibold text-center mb-2">
             Looking for nearby drivers
@@ -86,9 +114,7 @@ const ConfirmeRidePanel = () => {
               </div>
               <div className="w-full  ">
                 <h4 className="text-xl font-bold">{pickLocation}</h4>
-                <h5 className="font- text-sm">
-                  {pickup}
-                </h5>
+                <h5 className="font- text-sm">{pickup}</h5>
               </div>
             </div>
             {/* near by */}
@@ -98,9 +124,7 @@ const ConfirmeRidePanel = () => {
               </div>
               <div className="w-full ">
                 <h4 className="text-xl font-bold">{destLocation}</h4>
-                <h5 className="font- text-sm">
-                  {destination}
-                </h5>
+                <h5 className="font- text-sm">{destination}</h5>
               </div>
             </div>
             {/* ride price */}
@@ -116,7 +140,7 @@ const ConfirmeRidePanel = () => {
           </div>
           <div className="flex justify-center mt-3">
             <button
-              onClick={btnClick}
+              onClick={createRide}
               type="button"
               className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >

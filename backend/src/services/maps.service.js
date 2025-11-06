@@ -32,17 +32,17 @@ module.exports.getDistanceTimeSerice = async (origin, destination) => {
   )}&destinations=${encodeURIComponent(destination)}&key=${apikey}`;
   try {
     const response = await axios.get(url);
+    console.log("====================================");
+    console.log(response.data);
+    console.log("====================================");
     if (response.data.status === "OK") {
-      if (response.data.rows[0].elements[0].status === "ZERO_RESULTS") {
-        throw new Error("No route found");
+      if (response.data.rows[0].elements[0].status === "NOT_FOUND") {
+        return response.data.rows[1].elements[0];
       }
-      const element = response.data.rows[0].elements[0];
-
-      return element;
+      return response.data.rows[0].elements[0];
     }
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error.message);
   }
 };
 
@@ -56,12 +56,7 @@ module.exports.getSuggestions = async (input) => {
   )}&key=${apikey}`;
   try {
     const response = await axios.get(url);
-
-    if (response.data.status === "OK") {
-      return response.data.predictions;
-    } else {
-      throw new Error("Unable to fetch suggestions");
-    }
+    return response.data.predictions;
   } catch (error) {
     console.error(error);
     throw error;

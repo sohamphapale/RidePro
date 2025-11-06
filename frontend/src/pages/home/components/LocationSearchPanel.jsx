@@ -68,14 +68,14 @@ const LocationSearchPanel = () => {
     }
   };
 
-  const handleSuggestionClick = (suggestion, Location, type) => {
+  const handleSuggestionClick = async (suggestion, Location, type) => {
     console.log(Location);
 
     if (type === "pickup") {
-      setPickup(suggestion);
+      await setPickup(suggestion);
       setPickLocation(Location);
     } else if (type === "destination") {
-      setDestination(suggestion);
+      await setDestination(suggestion);
       setDestLocation(Location);
       getRidefare();
     }
@@ -83,9 +83,6 @@ const LocationSearchPanel = () => {
   };
 
   const getRidefare = async () => {
-    setVehivlePanel(true);
-    setPanelOpen(false);
-
     try {
       const response = await axios.get(`${baseUrl}/ride/get-fare`, {
         headers: {
@@ -101,6 +98,8 @@ const LocationSearchPanel = () => {
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     }
+    setVehivlePanel(true);
+    setPanelOpen(false);
   };
 
   const onclick = () => {

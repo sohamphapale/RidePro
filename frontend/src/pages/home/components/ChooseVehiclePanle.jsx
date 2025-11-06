@@ -28,10 +28,11 @@ const ChooseVehiclePanle = () => {
     }
   }, [vehivlePanel]);
 
-  const onClick = (type, fare) => {
-    setChooseVehicle({ type: type, fare: fare });
-    
+  const onClick = async (type, fare) => {
+    await setChooseVehicle({ type: "", fare: 0 });
+    await setChooseVehicle({ type: type, fare: fare });
   };
+
   const onChoose = () => {
     setConfirmeRide(true);
     setVehivlePanel(false);
@@ -88,7 +89,7 @@ const ChooseVehiclePanle = () => {
             <h2 className="text-xl font-semibold">₹{fare.auto}</h2>
           </div>
           <div
-            onClick={() => onClick("Moto", fare.motorcycle)}
+            onClick={() => onClick("Moto", fare.moto)}
             className={`flex items-center justify-between m-1 p-3 border-2 ${
               ChooseVehicle.type === "Moto" ? "border-black" : "border-gray-200"
             } rounded-xl cursor-pointer`}
@@ -103,15 +104,15 @@ const ChooseVehiclePanle = () => {
               </h4>
               <h5 className="text-sm">3mins</h5>
               <p className="font-normal text-xs text-gray-600">
-                Affordable, motorcycle ride
+                Affordable, moto ride
               </p>
             </div>
-            <h2 className="text-xl font-semibold">₹{fare.motorcycle}</h2>
+            <h2 className="text-xl font-semibold">₹{fare.moto}</h2>
           </div>
           <div className="flex justify-center mt-5">
             <button
               type="button"
-              onClick={onChoose}
+              onClick={() => onChoose()}
               className="w-2/3 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >
               Choose Ride {ChooseVehicle.type}
