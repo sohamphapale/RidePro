@@ -7,8 +7,16 @@ import { useGSAP } from "@gsap/react";
 const ConfirmeRidePanel = () => {
   gsap.registerPlugin(useGSAP);
   const ConfirmeRideRef = useRef(null);
-  const { ConfirmeRide, setConfirmeRide, setVehicleFound } =
-    useContext(PanelsDataContext);
+  const {
+    ConfirmeRide,
+    setConfirmeRide,
+    setVehicleFound,
+    ChooseVehicle,
+    destLocation,
+    pickLocation,
+    destination,
+    pickup
+  } = useContext(PanelsDataContext);
 
   useEffect(() => {
     if (ConfirmeRide) {
@@ -44,12 +52,28 @@ const ConfirmeRidePanel = () => {
           {/* this is for car img */}
           <div className="flex items-center justify-center w-full border-b border-gray-200 p-10">
             <div className="flex justify-center   bg-[#EFF3FE] h-20 w-56  rounded-full">
-              <div className="flex bg-[#D3E1FB] h-16 w-40 m-1 justify-center  rounded-full ">
-                <img
-                  className="h-26 pr-2 self-baseline-last"
-                  src="RideProCarPng.webp"
-                  alt=""
-                />
+              <div className="flex bg-[#D3E1FB] h-16 w-40 m-1 mt-4 justify-center  rounded-full ">
+                {ChooseVehicle.type === "Go" && (
+                  <img
+                    className="h-26 pr-2 self-baseline-last"
+                    src="RideProCarPng.webp"
+                    alt=""
+                  />
+                )}
+                {ChooseVehicle.type === "Auto" && (
+                  <img
+                    className="h-26 pr-2 self-baseline-last"
+                    src="RideProAutoPng.webp"
+                    alt=""
+                  />
+                )}
+                {ChooseVehicle.type === "Moto" && (
+                  <img
+                    className="h-26 pr-2 self-baseline-last"
+                    src="RideProMotoPng.webp"
+                    alt=""
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -58,12 +82,12 @@ const ConfirmeRidePanel = () => {
             {/* location */}
             <div className="flex  items-center  m-1 p-3 border-b border-gray-200  ">
               <div className="w-[40px]">
-            <i className="ri-map-pin-fill"></i>
+                <i className="ri-map-pin-fill"></i>
               </div>
               <div className="w-full  ">
-                <h4 className="text-xl font-bold">562/11-A</h4>
+                <h4 className="text-xl font-bold">{pickLocation}</h4>
                 <h5 className="font- text-sm">
-                  Kailondrahialli, Benguluru, karnataka
+                  {pickup}
                 </h5>
               </div>
             </div>
@@ -73,10 +97,9 @@ const ConfirmeRidePanel = () => {
                 <i className="ri-square-fill"></i>
               </div>
               <div className="w-full ">
-                <h4 className="text-xl font-bold">Third Wave Coffee</h4>
+                <h4 className="text-xl font-bold">{destLocation}</h4>
                 <h5 className="font- text-sm">
-                  17th Cross Rd, PWD Quarters, 1st Sector, HSR Layout,
-                  Bengaluru, karnataka
+                  {destination}
                 </h5>
               </div>
             </div>
@@ -86,7 +109,7 @@ const ConfirmeRidePanel = () => {
                 <i className="ri-bank-card-2-fill"></i>
               </div>
               <div className="w-full ">
-                <h4 className="text-xl font-bold">₹193.20</h4>
+                <h4 className="text-xl font-bold">₹{ChooseVehicle.fare}</h4>
                 <h5 className="font- text-sm">Cash, Cash</h5>
               </div>
             </div>

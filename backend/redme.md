@@ -615,4 +615,238 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
-### Notes
+---
+
+## Create a Ride
+## /rides/create
+
+### - Endpoint: `POST /rides/create`
+- **Purpose**: Create a new ride request in the RidePro system. Validates input, calculates fare, generates OTP, and saves the ride to the database.
+
+**Required data** (JSON body):
+- `pickup` (string) - required, the pickup location.
+- `destination` (string) - required, the destination location.
+- `vehicleType` (string) - required, type of vehicle (e.g., `auto`, `car`, `motorcycle`)
+
+**Validation rules**:
+- `pickup` and `destination` must be non-empty strings.
+- `vehicleType` must be one of the allowed types (`auto`, `car`, `motorcycle`)
+
+**Example request**:
+```json
+{
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "vehicleType": "car"
+}
+```
+
+**Success responses**:
+- **201 Created**
+  - **Description**: Ride successfully created.
+  - **Body (JSON)**:
+    - `user` (object): User who created the ride.
+    - `pickup` (string): Pickup location.
+    - `destination` (string): Destination location.
+    - `fare` (number): Calculated fare.
+    - `otp` (string): Generated OTP for the ride.
+
+**Example response**:
+```json
+{
+  "user": "64f1c2e5b5d6c2a1b8e4d123",
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "fare": 150,
+  "otp": "123456"
+}
+```
+
+**Error responses**:
+- **400 Bad Request**: Missing or invalid input fields.
+- **500 Internal Server Error**: Server error while creating the ride.
+
+---
+
+## Get Suggestions
+## /maps/get-suggestions
+
+---
+
+## Get Fare
+## /rides/get-fare
+
+### - Endpoint: `GET /rides/get-fare`
+- **Purpose**: Calculate estimated fares for supported vehicle types between two locations.
+
+**Authentication**
+- Requires an authenticated user. Include `Authorization: Bearer <token>` header or use the session cookie `token`.
+
+**Required data** (JSON body)
+- `pickup` (string) - required, the pickup location/address.
+- `destination` (string) - required, the destination location/address.
+
+**Validation rules**:
+- `pickup` and `destination` must be non-empty strings (minimum 3 characters).
+
+**Notes**:
+- The route in the code is defined as `GET /rides/get-fare` and the server currently validates `pickup` and `destination` from the request body. Some clients and proxies do not include a body on GET requests — if you run into issues, use a POST client or change the server to accept query parameters instead. The server will reject requests that fail validation.
+
+**Example request**:
+```
+GET /rides/get-fare
+Headers:
+  Authorization: Bearer <your_jwt_token>
+Content-Type: application/json
+
+Body:
+{
+  "pickup": "123 Main St, Springfield",
+  "destination": "456 Elm St, Springfield"
+}
+```
+
+**Success responses**:
+- **200 OK**
+  - **Description**: Fare estimates successfully calculated.
+  - **Body (JSON)**: An object containing fare estimates per vehicle type. Example keys: `auto`, `car`, `motorcycle` (numeric values).
+
+**Example response**:
+```json
+{
+  "auto": 120.5,
+  "car": 180.75,
+  "motorcycle": 90.3
+}
+```
+
+**Error responses**:
+- **400 Bad Request**: Missing or invalid `pickup` or `destination` in the request body. Body will contain `{ "message": "..." }` with the validation error.
+- **401 Unauthorized**: Missing or invalid authentication token.
+- **500 Internal Server Error**: Server error while calculating fare.
+
+---
+
+### - Endpoint: `GET /maps/get-suggestions`
+- **Purpose**: Fetch location suggestions based on user input.
+
+**Required query parameters**:
+- `input` (string) - required, the search query.
+
+**Validation rules**:
+- `input` must be a non-empty string.
+
+**Example request**:
+```
+GET /maps/get-suggestions?input=Main
+```
+
+**Success responses**:
+- **200 OK**
+  - **Description**: Suggestions successfully fetched.
+  - **Body (JSON)**:
+    - `predictions` (array): List of location suggestions.
+
+**Example response**:
+```json
+{
+  "predictions": [
+    {
+      "description": "Main Street, Springfield",
+      "place_id": "ChIJd8BlQ2BZwokRAFUEcm_qrcA"
+    },
+    {
+      "description": "Main Avenue, Metropolis",
+      "place_id": "ChIJd8BlQ2BZwokRAFUEcm_qrcB"
+    }
+  ]
+}
+```
+
+**Error responses**:
+- **400 Bad Request**: Missing or invalid `input` parameter.
+- **500 Internal Server Error**: Server error while fetching suggestions.
+
+---
+
+## Get Distance and Time
+## /maps/get-distance-time
+
+### - Endpoint: `GET /maps/get-distance-time`
+- **Purpose**: Calculate distance and estimated travel time between two locations.
+
+**Required query parameters**:
+- `origin` (string) - required, the starting location.
+- `destination` (string) - required, the ending location.
+
+**Validation rules**:
+- `origin` and `destination` must be non-empty strings.
+
+**Example request**:
+```
+GET /maps/get-distance-time?origin=123+Main+St&destination=456+Elm+St
+```
+
+**Success responses**:
+- **200 OK**
+  - **Description**: Distance and time successfully calculated.
+  - **Body (JSON)**:
+    - `distance` (object): Distance details (e.g., value in meters, text description).
+    - `duration` (object): Duration details (e.g., value in seconds, text description).
+
+**Example response**:
+```json
+{
+  "distance": {
+    "value": 5000,
+    "text": "5 km"
+  },
+  "duration": {
+    "value": 600,
+    "text": "10 mins"
+  }
+}
+```
+
+**Error responses**:
+- **400 Bad Request**: Missing or invalid `origin` or `destination` parameter.
+- **500 Internal Server Error**: Server error while calculating distance and time.
+
+---
+
+## Get Coordinates
+## /maps/get-cordinates
+
+### - Endpoint: `GET /maps/get-cordinates`
+- **Purpose**: Fetch geographical coordinates for a given address.
+
+**Required query parameters**:
+- `address` (string) - required, the address to geocode.
+
+**Validation rules**:
+- `address` must be a non-empty string.
+
+**Example request**:
+```
+GET /maps/get-cordinates?address=123+Main+St
+```
+
+**Success responses**:
+- **200 OK**
+  - **Description**: Coordinates successfully fetched.
+  - **Body (JSON)**:
+    - `lat` (number): Latitude of the address.
+    - `lng` (number): Longitude of the address.
+
+**Example response**:
+```json
+{
+  "lat": 40.7128,
+  "lng": -74.0060
+}
+```
+
+**Error responses**:
+- **400 Bad Request**: Missing or invalid `address` parameter.
+- **500 Internal Server Error**: Server error while fetching coordinates.
+

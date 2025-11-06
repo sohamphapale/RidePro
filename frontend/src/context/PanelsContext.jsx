@@ -10,7 +10,12 @@ const PanelsContext = ({ children }) => {
   const [RidePopUpPanel, setRidePopUpPanel] = useState(true);
   const [ConfirmRidePopUpPanel, setConfirmRidePopUpPanel] = useState(false);
   const [finishRidePanel, setFinishRidePanel] = useState(false);
-
+  const [pickup, setPickup] = useState("");
+  const [destination, setDestination] = useState("");
+  const [fare, setFare] = useState({});
+  const [ChooseVehicle, setChooseVehicle] = useState({ type: "", fare: 0 });
+  const [pickLocation, setPickLocation] = useState("");
+  const [destLocation, setDestLocation] = useState("");
   return (
     <PanelsDataContext.Provider
       value={{
@@ -28,6 +33,18 @@ const PanelsContext = ({ children }) => {
         setConfirmRidePopUpPanel,
         finishRidePanel,
         setFinishRidePanel,
+        pickup,
+        setPickup,
+        destination,
+        setDestination,
+        fare,
+        setFare,
+        ChooseVehicle,
+        setChooseVehicle,
+        pickLocation,
+        setPickLocation,
+        destLocation,
+        setDestLocation,
       }}
     >
       {children}

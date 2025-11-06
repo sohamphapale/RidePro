@@ -10,9 +10,12 @@ const UserContext = ({ children }) => {
       LastName: "",
     },
   });
+  const [setPickup, setSetPickup] = useState("");
 
   return (
-    <UserDataContext.Provider value={{ user, setUser }}>
+    <UserDataContext.Provider
+      value={{ user, setUser, setPickup, setSetPickup }}
+    >
       {children}
     </UserDataContext.Provider>
   );

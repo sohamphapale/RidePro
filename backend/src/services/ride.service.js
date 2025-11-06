@@ -1,3 +1,4 @@
+const { model } = require("mongoose");
 const { getDistanceTime } = require("../controllers/maps.controller");
 const rideModel = require("../models/ride.model");
 const { getDistanceTimeSerice } = require("./maps.service");
@@ -15,13 +16,11 @@ const getFare = async (pickup, destination) => {
     car: 50,
     motorcycle: 20,
   };
-
   const perKmRate = {
     auto: 10,
     car: 15,
     motorcycle: 8,
   };
-
   const perMinuteRate = {
     auto: 2,
     car: 3,
@@ -29,22 +28,26 @@ const getFare = async (pickup, destination) => {
   };
 
   const fare = {
-    auto:
+    auto: Math.round(
       baseFare.auto +
-      (distanceTime.distance.value / 1000) * perKmRate.auto +
-      (distanceTime.duration.value / 60) * perMinuteRate.auto,
-    car:
+        (distanceTime.distance.value / 1000) * perKmRate.auto +
+        (distanceTime.duration.value / 60) * perMinuteRate.auto
+    ),
+    car: Math.round(
       baseFare.car +
-      (distanceTime.distance.value / 1000) * perKmRate.car +
-      (distanceTime.duration.value / 60) * perMinuteRate.car,
-    motorcycle:
+        (distanceTime.distance.value / 1000) * perKmRate.car +
+        (distanceTime.duration.value / 60) * perMinuteRate.car
+    ),
+    motorcycle: Math.round(
       baseFare.motorcycle +
-      (distanceTime.distance.value / 1000) * perKmRate.motorcycle +
-      (distanceTime.duration.value / 60) * perMinuteRate.motorcycle,
+        (distanceTime.distance.value / 1000) * perKmRate.motorcycle +
+        (distanceTime.duration.value / 60) * perMinuteRate.motorcycle
+    ),
   };
-
   return fare;
 };
+
+module.exports.getFare = getFare;
 
 const getOtp = (num) => {
   const otp = crypto
@@ -72,10 +75,6 @@ module.exports.createRideService = async ({
     otp: getOtp(6),
     fare: fare[vehicleType],
   });
-  
-  
-  
-  
 
   return ride;
 };

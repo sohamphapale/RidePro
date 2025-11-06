@@ -3,6 +3,7 @@ import Locationsuggestions from "./LocationSuggestions.jsx";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { PanelsDataContext } from "../../../context/PanelsContext";
+import axios from "axios";
 
 const LocationSearchPanel = () => {
   const {
@@ -14,16 +15,27 @@ const LocationSearchPanel = () => {
     setConfirmeRide,
     vehicleFound,
     setVehicleFound,
+    pickup,
+    setPickup,
+    destination,
+    setDestination,
+    setFare,
+    setPickLocation,
+    setDestLocation,
   } = useContext(PanelsDataContext);
   gsap.registerPlugin(useGSAP);
 
-  const [pickup, setPickup] = useState("");
-  const [destination, setDestination] = useState("");
+  const token = localStorage.getItem("token");
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+
+  const [suggestions, setSuggestions] = useState([]);
   const panelRef = useRef();
   const searchRef = useRef();
+  const typeRef = useRef("");
   const submitHandler = (e) => {
     e.preventDefault();
   };
+
   useEffect(() => {
     if (panelOpen) {
       gsap.to(panelRef.current, {
@@ -36,6 +48,60 @@ const LocationSearchPanel = () => {
     }
   }, [panelOpen]);
 
+  const fetchSuggestions = async (query, type) => {
+    typeRef.current = type;
+
+    try {
+      if (query.length >= 3) {
+        const response = await axios.get(
+          `${baseUrl}/maps/get-suggestions?input=${encodeURIComponent(query)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setSuggestions(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion, Location, type) => {
+    console.log(Location);
+
+    if (type === "pickup") {
+      setPickup(suggestion);
+      setPickLocation(Location);
+    } else if (type === "destination") {
+      setDestination(suggestion);
+      setDestLocation(Location);
+      getRidefare();
+    }
+    setSuggestions([]); // Clear suggestions after selection
+  };
+
+  const getRidefare = async () => {
+    setVehivlePanel(true);
+    setPanelOpen(false);
+
+    try {
+      const response = await axios.get(`${baseUrl}/ride/get-fare`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          pickup: pickup,
+          destination: destination,
+        },
+      });
+      console.log(response.data);
+      setFare(response.data);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
 
   const onclick = () => {
     if (vehivlePanel) {
@@ -55,7 +121,7 @@ const LocationSearchPanel = () => {
         onClick={onclick}
         className=" flex flex-col justify-end h-screen overflow-hidden absolute top-0 w-full "
       >
-        <div ref={searchRef} className="h-[23%]  p-4 bg-white relative ">
+        <div ref={searchRef} className="h-[23%]  p-4 pb-0 bg-white relative ">
           {panelOpen ? (
             <h5
               onClick={() => setPanelOpen(false)}
@@ -79,6 +145,7 @@ const LocationSearchPanel = () => {
               value={pickup}
               onChange={(e) => {
                 setPickup(e.target.value);
+                fetchSuggestions(e.target.value, "pickup");
               }}
               className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full"
               type="text"
@@ -92,6 +159,7 @@ const LocationSearchPanel = () => {
               }}
               onChange={(e) => {
                 setDestination(e.target.value);
+                fetchSuggestions(e.target.value, "destination");
               }}
               className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3"
               type="text"
@@ -100,8 +168,16 @@ const LocationSearchPanel = () => {
           </form>
         </div>
 
-        <div ref={panelRef} className="bg-white p-4 h-0">
-          {panelRef && <Locationsuggestions />}
+        <div ref={panelRef} className="bg-white p-4 pt-1 h-0">
+          {panelOpen && (
+            <>
+              <Locationsuggestions
+                handleSuggestionClick={handleSuggestionClick}
+                suggestions={suggestions}
+                typeRef={typeRef}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -109,13 +185,3 @@ const LocationSearchPanel = () => {
 };
 
 export default LocationSearchPanel;
-
-
-// web depelopment
-// youtube finnase youtube channel
-// flutter development and back end nodejs 
-// flutter nodejs express js mongodb
-// al ml code with harry
-// uber clone half
-// this is soham phapale
-  

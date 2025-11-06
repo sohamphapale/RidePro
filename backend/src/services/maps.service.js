@@ -36,7 +36,7 @@ module.exports.getDistanceTimeSerice = async (origin, destination) => {
       if (response.data.rows[0].elements[0].status === "ZERO_RESULTS") {
         throw new Error("No route found");
       }
-      const element = response.data.rows[1].elements[0];
+      const element = response.data.rows[0].elements[0];
 
       return element;
     }
@@ -55,8 +55,8 @@ module.exports.getSuggestions = async (input) => {
     input
   )}&key=${apikey}`;
   try {
-    const response = await axios.get(url);    
-   
+    const response = await axios.get(url);
+
     if (response.data.status === "OK") {
       return response.data.predictions;
     } else {
