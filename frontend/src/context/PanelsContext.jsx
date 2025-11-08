@@ -7,9 +7,7 @@ const PanelsContext = ({ children }) => {
   const [vehivlePanel, setVehivlePanel] = useState(false);
   const [ConfirmeRide, setConfirmeRide] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
-  const [RidePopUpPanel, setRidePopUpPanel] = useState(true);
-  const [ConfirmRidePopUpPanel, setConfirmRidePopUpPanel] = useState(false);
-  const [finishRidePanel, setFinishRidePanel] = useState(false);
+  const [lookingForDriver, setLookingForDriver] = useState(false);
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [fare, setFare] = useState({});
@@ -27,12 +25,6 @@ const PanelsContext = ({ children }) => {
         setConfirmeRide,
         vehicleFound,
         setVehicleFound,
-        RidePopUpPanel,
-        setRidePopUpPanel,
-        ConfirmRidePopUpPanel,
-        setConfirmRidePopUpPanel,
-        finishRidePanel,
-        setFinishRidePanel,
         pickup,
         setPickup,
         destination,
@@ -45,6 +37,8 @@ const PanelsContext = ({ children }) => {
         setPickLocation,
         destLocation,
         setDestLocation,
+        lookingForDriver,
+        setLookingForDriver,
       }}
     >
       {children}

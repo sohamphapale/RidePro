@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import SocketContext from "../../../context/SocketContext";
 
-const ConfirmeRidePanel = () => {
+const LookingForDriver = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const token = localStorage.getItem("token");
 
@@ -21,12 +21,10 @@ const ConfirmeRidePanel = () => {
     pickLocation,
     destination,
     pickup,
-    setLookingForDriver,
+    lookingForDriver,
   } = useContext(PanelsDataContext);
-
-
   useEffect(() => {
-    if (ConfirmeRide) {
+    if (lookingForDriver) {
       gsap.to(ConfirmeRideRef.current, {
         transform: "translateY(0)",
       });
@@ -35,40 +33,21 @@ const ConfirmeRidePanel = () => {
         transform: "translateY(100%)",
       });
     }
-  }, [ConfirmeRide]);
+  }, [lookingForDriver]);
 
-  const createRide = async () => {
-    console.log("location: ", pickup);
-    console.log("location: ", destination);
-    setConfirmeRide(false);
-    setLookingForDriver(true);
 
-    const response = await axios.post(
-      `${baseUrl}/ride/create`,
-      {
-        pickup: pickup,
-        destination: destination,
-        vehicleType: ChooseVehicle.type.toLowerCase(),
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log(response);
-  };
 
+  
+  
   return (
     <div>
       <div className="h-full w-screen top-0">
         <div
           ref={ConfirmeRideRef}
-          className="fixed z-9 translate-y-full justify-end bottom-0 bg-white w-screen p-3 py-5"
+          className="fixed z-8 translate-y-full justify-end bottom-0 bg-white w-screen p-3 py-5"
         >
           <h3 className="text-2xl font-semibold text-center mb-2">
-            Confirm Your Ride
+            Looking for a Driver
           </h3>
           {/* this is for line */}
           <div className="w-full flex ">
@@ -136,19 +115,11 @@ const ConfirmeRidePanel = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center mt-3">
-            <button
-              onClick={createRide}
-              type="button"
-              className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-            >
-              Confirm
-            </button>
-          </div>
+          <div className="flex justify-center mt-3"></div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ConfirmeRidePanel;
+export default LookingForDriver;

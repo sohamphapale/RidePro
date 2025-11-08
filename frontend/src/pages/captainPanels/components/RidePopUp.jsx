@@ -1,16 +1,20 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { PanelsDataContext } from "../../../context/PanelsContext";
+import { CaptainPanelsContext } from "../../../context/CaptainPanels";
 import { Link, useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import OTPConfirm from "./OTPConfirm";
+import { CaptainDataContext } from "../../../context/CaptainContext";
+import axios from "axios";
 
 const RidePopUp = () => {
   gsap.registerPlugin(useGSAP);
+  const token = localStorage.getItem("token");
   const [isOPTGet, setIsOPTGet] = useState(false);
   const RidePopUpRef = useRef(null);
   const { RidePopUpPanel, setRidePopUpPanel, setConfirmRidePopUpPanel } =
-    useContext(PanelsDataContext);
+    useContext(CaptainPanelsContext);
+  const { RideDetails } = useContext(CaptainDataContext);
 
   useEffect(() => {
     if (RidePopUpPanel) {
@@ -27,6 +31,23 @@ const RidePopUp = () => {
   const onConfirmClick = () => {
     setConfirmRidePopUpPanel(true);
     setRidePopUpPanel(false);
+  };
+
+  const confirmRide = async () => {
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/ride/confirm`,
+      {
+        rideId: RideDetails._id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response);
+    
   };
 
   return (
@@ -61,7 +82,8 @@ const RidePopUp = () => {
             {/* user info  */}
             <div className="text-left text-[#727272] font-medium px-4">
               <h3 className="font-medium text-xl text-black ">
-                Jeremiah Curtis{" "}
+                {RideDetails?.user.fullname.firstname}{" "}
+                {RideDetails?.user.fullname.lastname}
               </h3>
               {/* <p>Basic level</p> */}
             </div>
@@ -77,10 +99,8 @@ const RidePopUp = () => {
               <i className="ri-map-pin-fill"></i>
             </div>
             <div className="w-full  ">
-              <h4 className="text-xl font-bold">562/11-A</h4>
-              <h5 className="font- text-sm">
-                Kailondrahialli, Benguluru, karnataka
-              </h5>
+              <h4 className="text-xl font-bold">Pickup</h4>
+              <h5 className="font- text-sm">{RideDetails?.pickup}</h5>
             </div>
           </div>
           {/* near by */}
@@ -89,11 +109,8 @@ const RidePopUp = () => {
               <i className="ri-square-fill"></i>
             </div>
             <div className="w-full ">
-              <h4 className="text-xl font-bold">Third Wave Coffee</h4>
-              <h5 className="font- text-sm">
-                17th Cross Rd, PWD Quarters, 1st Sector, HSR Layout, Bengaluru,
-                karnataka
-              </h5>
+              <h4 className="text-xl font-bold">Destination</h4>
+              <h5 className="font- text-sm">{RideDetails?.destination}</h5>
             </div>
           </div>
           {/* ride price */}
@@ -102,7 +119,7 @@ const RidePopUp = () => {
               <i className="ri-bank-card-2-fill"></i>
             </div>
             <div className="w-full ">
-              <h4 className="text-xl font-bold">₹193.20</h4>
+              <h4 className="text-xl font-bold">₹{RideDetails?.fare}</h4>
               <h5 className="font- text-sm">Cash, Cash</h5>
             </div>
           </div>
@@ -112,7 +129,7 @@ const RidePopUp = () => {
         ) : (
           <div className="flex justify-center mt-3">
             <button
-              onClick={() => setIsOPTGet(true)}
+              onClick={confirmRide}
               type="button"
               className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >

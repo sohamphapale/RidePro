@@ -3,6 +3,8 @@ import React, { createContext, useContext, useState } from "react";
 export const CaptainDataContext = createContext();
 
 const CaptainContext = ({ children }) => {
+  const [RideDetails, setRideDetails] = useState({});
+
   const [captain, setCaptain] = useState({
     fullname: {
       firstname: "",
@@ -19,7 +21,9 @@ const CaptainContext = ({ children }) => {
   });
 
   return (
-    <CaptainDataContext.Provider value={{captain, setCaptain}}>
+    <CaptainDataContext.Provider
+      value={{ captain, setCaptain, RideDetails, setRideDetails }}
+    >
       {children}
     </CaptainDataContext.Provider>
   );

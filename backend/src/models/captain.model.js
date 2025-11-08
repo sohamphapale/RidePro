@@ -26,7 +26,7 @@ const captainSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
-  soketId: {
+  socketId: {
     type: String,
   },
   status: {
@@ -57,10 +57,10 @@ const captainSchema = new mongoose.Schema({
     },
   },
   location: {
-    lat: {
+    lng: {
       type: Number,
     },
-    lng: {
+    ltd: {
       type: Number,
     },
   },
@@ -89,8 +89,6 @@ captainSchema.methods.toJSON = function () {
   return captainObject;
 };
 
-
 const captainModel = mongoose.model("captain", captainSchema);
-
 
 module.exports = captainModel;

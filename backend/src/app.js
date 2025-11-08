@@ -1,12 +1,21 @@
 const express = require("express"); //
 const app = express();
 const cors = require("cors");
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://mdhn7345-5173.inc1.devtunnels.ms",
+    ], // ✅ no trailing slash
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 const connectToDb = require("./db/db");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 connectToDb();
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,5 +34,3 @@ app.use("/captains", captainRoutes);
 app.use("/ride", rideRoutes);
 
 module.exports = app;
-
-

@@ -1,13 +1,13 @@
 import React, { useEffect, useContext, useRef } from "react";
 
-import { PanelsDataContext } from "../../context/PanelsContext.jsx";
+import { CaptainPanelsContext } from "../../context/CaptainPanels.jsx";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import OTPConfirm from "./components/OTPConfirm.jsx";
 import { Link } from "react-router-dom";
 
 const FinishRide = () => {
-  const { finishRidePanel } = useContext(PanelsDataContext);
+  const { finishRidePanel } = useContext(CaptainPanelsContext);
   gsap.registerPlugin(useGSAP);
   const finishRidePanelref = useRef(null);
 
@@ -120,5 +120,3 @@ const FinishRide = () => {
 
 export default FinishRide;
 
-
-// AIzaSyDSzWjFoe5ehbrohPLgTtTwys7tk9io_P0

@@ -17,7 +17,6 @@ const getFare = async (pickup, destination) => {
 
   const distanceTime = await getDistanceTimeSerice(pickup, destination);
 
-
   const baseFare = {
     auto: 30,
     car: 50,
@@ -87,4 +86,28 @@ module.exports.createRideService = async ({
   });
 
   return ride;
+};
+
+module.exports.confirmRideService = async (rideId, captain) => {
+  try {
+    if (!rideId) {
+      throw new Error("Ride id is required");
+    }
+    console.log("rideId: ", rideId, "captain: ", captain);
+
+    const createdRide = await rideModel.findByIdAndUpdate(rideId, {
+      status: "accepted",
+      captain: captain,
+    });
+    console.log("ride: ", createdRide);
+
+    const ride = await rideModel
+      .findById(rideId)
+      .populate("user")
+      .populate("captain");
+
+    return ride;
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 };

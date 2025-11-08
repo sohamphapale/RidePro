@@ -1,8 +1,22 @@
-import React from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { CaptainDataContext } from "../../../context/CaptainContext";
 
 const CaptainDetails = () => {
-    
-    
+  const { captain } = useContext(CaptainDataContext);
+
+  //  fullname: {
+  //     firstname: "",
+  //     lastname: "",
+  //   },
+  //   email: "",
+  //   password: "",
+  //   vehicles: {
+  //     color: "",
+  //     plate: "",
+  //     capacity: "",
+  //     vehicleType: "",
+  //   },
+
   return (
     <div className="h-full w-screen top-0 overflow-hidden">
       <div className="fixed z-10  justify-end bottom-0 bg-white w-screen p-2 px-4 rounded-t-3xl">
@@ -29,9 +43,9 @@ const CaptainDetails = () => {
             {/* user info  */}
             <div className="text-left text-[#727272] font-medium px-4">
               <h3 className="font-medium text-xl text-black ">
-                Jeremiah Curtis{" "}
+                {captain.fullname.firstname}
               </h3>
-              <p>Basic level</p>
+              <p>Best Captain</p>
             </div>
           </div>
           <div className="text-right">

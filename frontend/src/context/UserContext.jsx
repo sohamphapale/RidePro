@@ -10,11 +10,21 @@ const UserContext = ({ children }) => {
       LastName: "",
     },
   });
+
+  const [userRideDetails, setUserRideDetails] = useState({});
+  
   const [setPickup, setSetPickup] = useState("");
 
   return (
     <UserDataContext.Provider
-      value={{ user, setUser, setPickup, setSetPickup }}
+      value={{
+        user,
+        setUser,
+        setPickup,
+        setSetPickup,
+        userRideDetails,
+        setUserRideDetails,
+      }}
     >
       {children}
     </UserDataContext.Provider>

@@ -6,17 +6,23 @@ import { BrowserRouter } from "react-router-dom";
 import UserContext from "./context/UserContext.jsx";
 import CaptainContext from "./context/CaptainContext.jsx";
 import PanelsContext from "./context/PanelsContext.jsx";
+import CaptainPanels from "./context/CaptainPanels.jsx";
+import { SocketProvider } from "./context/SocketContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <CaptainContext>
-      <UserContext>
-        <PanelsContext>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </PanelsContext>
-      </UserContext>
-    </CaptainContext>
+        <SocketProvider>
+          <CaptainContext>
+            <UserContext>
+              <PanelsContext>
+                <CaptainPanels>
+                  <BrowserRouter>
+                    <App />
+                  </BrowserRouter>
+                </CaptainPanels>
+              </PanelsContext>
+            </UserContext>
+          </CaptainContext>
+        </SocketProvider>
   </StrictMode>
 );

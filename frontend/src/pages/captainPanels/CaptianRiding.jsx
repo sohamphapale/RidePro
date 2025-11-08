@@ -1,10 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { PanelsDataContext } from "../../context/PanelsContext.jsx";
+import { CaptainPanelsContext } from "../../context/CaptainPanels.jsx";
 import FinishRide from "./FinishRide.jsx";
 
 const CaptianRideing = () => {
-  const { finishRidePanel, setFinishRidePanel } = useContext(PanelsDataContext);
+  const { finishRidePanel, setFinishRidePanel } =
+    useContext(CaptainPanelsContext);
+
   return (
     <div className="h-screen relative overflow-hidden">
       <div className="fixed p-6 top-0 flex items-center justify-between w-screen">
@@ -52,36 +54,3 @@ const CaptianRideing = () => {
 };
 
 export default CaptianRideing;
-
-// <div className="flex justify-center text-[#919191] items-center text-center  ">
-//   <i className="ri-subtract-line s text-5xl"></i>
-// </div>
-
-// <div className="flex justify-between py-2 items-center">
-//   <div className="flex justify-between py-2 items-center">
-//     {/* img content */}
-//     <div className="relative flex items-center">
-//       {/* user image (front) */}
-//       <div className="relative z-10 w-18 h-18 rounded-full overflow-hidden border-4 border-white shadow-md">
-//         <img
-//           src="/captain.jpg"
-//           alt="Captain"
-//           className="h-full object-cover"
-//         />
-//       </div>
-//     </div>
-
-//     {/* user info  */}
-//     <div className="text-left text-[#727272] font-medium px-4">
-//       <h3 className="font-medium text-xl text-black ">
-//         Jeremiah Curtis{" "}
-//       </h3>
-//       <p>Basic level</p>
-//     </div>
-//   </div>
-//   <div className="text-right">
-//     <h4 className="text-xl font-bold">₹193.20</h4>
-//     <h5 className="font- text-sm font-medium text-[#727272]">
-//     </h5>
-//   </div>
-// </div>

@@ -2,11 +2,19 @@ import React, { useContext, useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { PanelsDataContext } from "../../../context/PanelsContext";
+import { UserDataContext } from "../../../context/UserContext";
 
 const VehicleFoundPanel = () => {
   gsap.registerPlugin(useGSAP);
   const VehicleFoundRef = useRef(null);
-  const { vehicleFound, setVehicleFound } = useContext(PanelsDataContext);
+  const {
+    vehicleFound,
+    setVehicleFound,
+    destLocation,
+    destination,
+    ChooseVehicle,
+  } = useContext(PanelsDataContext);
+  const { setUserRideDetails, userRideDetails } = useContext(UserDataContext);
 
   useEffect(() => {
     if (vehicleFound) {
@@ -21,7 +29,6 @@ const VehicleFoundPanel = () => {
   }, [vehicleFound]);
 
   const btnClick = () => {
-    
     setVehicleFound(true);
     setConfirmeRide(false);
   };
@@ -67,11 +74,14 @@ const VehicleFoundPanel = () => {
             </div>
             {/* car info and driver reting */}
             <div className="text-right text-[#545454] font-medium">
-              <p>SANTH</p>
-              <h3 className="font-bold text-black">KA15AK00-0 </h3>
-              <p>White Suzuki S-Presso LXI</p>
-              <i className="ri-star-fill"> </i>
-              <span> 4.9</span>
+              <p>{userRideDetails.captain?.fullname.firstname}</p>
+              <h3 className="font-bold text-black">
+                {userRideDetails.captain?.vehicles.plate}
+              </h3>
+              <p>{userRideDetails.captain?.vehicles.color}</p>
+              <span>
+                capacity: {userRideDetails.captain?.vehicles.capacity}
+              </span>
             </div>
           </div>
         </div>
@@ -122,10 +132,8 @@ const VehicleFoundPanel = () => {
             <i className="ri-map-pin-fill"></i>
           </div>
           <div className="w-full  ">
-            <h4 className="text-xl font-bold">562/11-A</h4>
-            <h5 className="font- text-sm">
-              Kailondrahialli, Benguluru, karnataka
-            </h5>
+            <h4 className="text-xl font-bold">{destLocation}</h4>
+            <h5 className="font- text-sm">{destination}</h5>
           </div>
         </div>
         <div className="flex justify-center my-3">
@@ -134,7 +142,7 @@ const VehicleFoundPanel = () => {
             type="button"
             className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
-            Make a Payment (₹193.20)
+            Make a Payment (₹{ChooseVehicle.fare})
           </button>
         </div>
       </div>
