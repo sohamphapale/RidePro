@@ -50,9 +50,6 @@ const getFare = async (pickup, destination) => {
         (distanceTime.duration.value / 60) * perMinuteRate.moto
     ),
   };
-  console.log("====================================");
-  console.log(fare);
-  console.log("====================================");
   return fare;
 };
 
@@ -93,21 +90,97 @@ module.exports.confirmRideService = async (rideId, captain) => {
     if (!rideId) {
       throw new Error("Ride id is required");
     }
-    console.log("rideId: ", rideId, "captain: ", captain);
 
     const createdRide = await rideModel.findByIdAndUpdate(rideId, {
       status: "accepted",
+
       captain: captain,
     });
-    console.log("ride: ", createdRide);
 
     const ride = await rideModel
       .findById(rideId)
       .populate("user")
-      .populate("captain");
+      .populate("captain")
+      .select("+otp");
 
     return ride;
   } catch (err) {
     return res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports.startRideService = async (rideId, otp) => {
+  if (!rideId || !otp) {
+    throw new Error("Ride id and OTP are required");
+  }
+  let ride = await rideModel
+    .findOne({
+      _id: rideId,
+    })
+    .populate("user")
+    .populate("captain")
+    .select("+otp");
+
+  if (!ride) {
+    throw new Error("Ride not found");
+  }
+  if (ride.status !== "accepted") {
+    throw new Error("Ride not Accepted");
+  }
+  if (ride.otp !== otp) {
+    throw new Error("Invalid OTP");
+  }
+
+  await rideModel.findOneAndUpdate(
+    {
+      _id: rideId,
+    },
+    {
+      status: "ongoing",
+    }
+  );
+
+  ride = await rideModel
+    .findOne({
+      _id: rideId,
+    })
+    .populate("user")
+    .populate("captain")
+    .select("+otp");
+
+  return ride;
+};
+
+module.exports.endRideService = async (rideID, captain) => {
+  if (!rideID) {
+    throw new Error("Ride id is required");
+  }
+  // console.log(rideID);
+
+  try {
+    const ride = await rideModel
+      .findOne({
+        _id: rideID,
+      })
+      .populate("user")
+      .populate("captain")
+      .select("+otp");
+    console.log(captain._id);
+    console.log(ride.captain._id);
+
+    if (captain._id.toString() !== ride.captain._id.toString()) {
+      throw new Error("Invalid Ride and Captain Data");
+    }
+
+    const completeRide = await rideModel
+      .findByIdAndUpdate(rideID, { status: "finish" }, { new: true })
+      .populate("user")
+      .populate("captain");
+
+    console.log("Ride completed:", completeRide);
+    return completeRide;
+  } catch (err) {
+    console.error("End ride error:", err);
+    throw new Error(err.message);
   }
 };

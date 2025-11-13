@@ -7,17 +7,26 @@ import VehicleFoundPanel from "./components/VehicleFoundPanel";
 import SocketContext from "../../context/SocketContext";
 import { UserDataContext } from "../../context/UserContext";
 import LookingForDriver from "./components/lookingForDriver";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { reciveMessage, sendMessage, socket } = useContext(SocketContext);
-  const { setLookingForDriver, setVehicleFound } =
-    useContext(PanelsDataContext);
-  const { user, setUser, setUserRideDetails, userRideDetails } =
+  const {
+    setLookingForDriver,
+    setConfirmeRide,
+    setDestination,
+    setFare,
+    setPickup,
+    setPickLocation,
+    setDestLocation,
+    setChooseVehicle,
+    setVehicleFound,
+  } = useContext(PanelsDataContext);
+
+  const { user, setUser, setUserRideDetails, setSetPickup, userRideDetails } =
     useContext(UserDataContext);
 
   useEffect(() => {
-    console.log(user._id);
-
     sendMessage("join", { userType: "user", userId: user._id });
   }, []);
 
@@ -25,14 +34,28 @@ const Home = () => {
     if (!socket) return;
 
     reciveMessage("ride_confirmed", async (data) => {
-      console.log(data);
       await setUserRideDetails(data);
       setLookingForDriver(false);
       setVehicleFound(true);
     });
 
+    reciveMessage("ride-end", async (data) => {
+      await setUserRideDetails(data);
+      setLookingForDriver(false);
+      setVehicleFound(false);
+      setSetPickup("");
+      setUserRideDetails("");
+      setChooseVehicle("");
+      setPickLocation("");
+      setDestLocation("");
+      setFare("");
+      setConfirmeRide(false);
+      setDestination("");
+      setPickup("");
+    });
     return () => {
       socket.off("ride_confirmed");
+      socket.off("ride-end");
     };
   }, [socket]);
 

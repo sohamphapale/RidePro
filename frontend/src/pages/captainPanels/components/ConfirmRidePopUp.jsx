@@ -9,6 +9,9 @@ const ConfirmRidePopUp = () => {
   const { ConfirmRidePopUpPanel, setConfirmRidePopUpPanel } =
     useContext(PanelsDataContext);
 
+    
+
+    
   useEffect(() => {
     if (ConfirmRidePopUpPanel) {
       gsap.to(ConfirmRidePopUpRef.current, {

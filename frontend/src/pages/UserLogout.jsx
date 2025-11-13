@@ -16,7 +16,6 @@ const UserLogout = () => {
     );
     if (response.status === 200) {
       const data = response.data;
-      console.log(data);
       localStorage.setItem("token", "");
       navigeta("/login");
       return;

@@ -38,8 +38,6 @@ const ConfirmeRidePanel = () => {
   }, [ConfirmeRide]);
 
   const createRide = async () => {
-    console.log("location: ", pickup);
-    console.log("location: ", destination);
     setConfirmeRide(false);
     setLookingForDriver(true);
 
@@ -57,7 +55,6 @@ const ConfirmeRidePanel = () => {
         },
       }
     );
-    console.log(response);
   };
 
   return (

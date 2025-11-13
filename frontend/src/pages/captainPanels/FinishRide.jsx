@@ -4,14 +4,21 @@ import { CaptainPanelsContext } from "../../context/CaptainPanels.jsx";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import OTPConfirm from "./components/OTPConfirm.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { CaptainDataContext } from "../../context/CaptainContext.jsx";
+import axios from "axios";
 
 const FinishRide = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const { RideDetails } = useContext(CaptainDataContext);
   const { finishRidePanel } = useContext(CaptainPanelsContext);
   gsap.registerPlugin(useGSAP);
   const finishRidePanelref = useRef(null);
 
   useEffect(() => {
+    console.log(RideDetails);
     if (finishRidePanel) {
       gsap.to(finishRidePanelref.current, {
         transform: "translateY(0)",
@@ -22,6 +29,22 @@ const FinishRide = () => {
       });
     }
   }, [finishRidePanel]);
+
+  const onFinishRide = async () => {
+    console.log(token);
+
+    const response = await axios.get(`${baseUrl}/ride/end-ride`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        rideId: RideDetails._id,
+      },
+    });
+    if (response.status === 200) {
+      navigate("/captain-home");
+    }
+  };
 
   return (
     <div className="  h-full w-screen top-0">
@@ -55,7 +78,8 @@ const FinishRide = () => {
             {/* user info  */}
             <div className="text-left text-[#727272] font-medium px-4">
               <h3 className="font-medium text-xl text-black ">
-                Jeremiah Curtis{" "}
+                {RideDetails?.user?.fullname.firstname}{" "}
+                {RideDetails?.user?.fullname.lastname}{" "}
               </h3>
               {/* <p>Basic level</p> */}
             </div>
@@ -71,10 +95,8 @@ const FinishRide = () => {
               <i className="ri-map-pin-fill"></i>
             </div>
             <div className="w-full  ">
-              <h4 className="text-xl font-bold">562/11-A</h4>
-              <h5 className="font- text-sm">
-                Kailondrahialli, Benguluru, karnataka
-              </h5>
+              <h4 className="text-xl font-bold">Pickup</h4>
+              <h5 className="font- text-sm">{RideDetails?.pickup}</h5>
             </div>
           </div>
           {/* near by */}
@@ -83,11 +105,8 @@ const FinishRide = () => {
               <i className="ri-square-fill"></i>
             </div>
             <div className="w-full ">
-              <h4 className="text-xl font-bold">Third Wave Coffee</h4>
-              <h5 className="font- text-sm">
-                17th Cross Rd, PWD Quarters, 1st Sector, HSR Layout, Bengaluru,
-                karnataka
-              </h5>
+              <h4 className="text-xl font-bold">Destination</h4>
+              <h5 className="font- text-sm">{RideDetails?.destination}</h5>
             </div>
           </div>
           {/* ride price */}
@@ -96,22 +115,23 @@ const FinishRide = () => {
               <i className="ri-bank-card-2-fill"></i>
             </div>
             <div className="w-full ">
-              <h4 className="text-xl font-bold">₹193.20</h4>
+              <h4 className="text-xl font-bold">₹{RideDetails?.fare}</h4>
               <h5 className="font- text-sm">Cash, Cash</h5>
             </div>
           </div>
         </div>
         <div className="flex flex-col items-center justify-center mt-3">
-          <Link
-            to="/captain-home"
+          <button
+            onClick={onFinishRide}
             type="button"
             className="w-2/3  text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
             Finish Ride
-          </Link>
+          </button>
 
-          <p className="text-gray-500  text-xs">Click on Finish ride if you have completed the payment</p>
-
+          <p className="text-gray-500  text-xs">
+            Click on Finish ride if you have completed the payment
+          </p>
         </div>
       </div>
     </div>
@@ -119,4 +139,3 @@ const FinishRide = () => {
 };
 
 export default FinishRide;
-

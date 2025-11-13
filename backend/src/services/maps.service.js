@@ -33,9 +33,6 @@ module.exports.getDistanceTimeSerice = async (origin, destination) => {
   )}&destinations=${encodeURIComponent(destination)}&key=${apikey}`;
   try {
     const response = await axios.get(url);
-    console.log("====================================");
-    console.log(response.data);
-    console.log("====================================");
     if (response.data.status === "OK") {
       if (response.data.rows[0].elements[0].status === "NOT_FOUND") {
         return response.data.rows[1].elements[0];
@@ -65,7 +62,7 @@ module.exports.getSuggestions = async (input) => {
 };
 
 module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
-  console.log(ltd, lng, radius);
+
 
   //radius in km
 
@@ -77,6 +74,6 @@ module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
     },
   });
 
-
   return captains;
 };
+

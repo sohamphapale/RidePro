@@ -6,6 +6,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://mdhn7345-5173.inc1.devtunnels.ms",
+      
     ], // ✅ no trailing slash
     methods: ["GET", "POST"],
     credentials: true,

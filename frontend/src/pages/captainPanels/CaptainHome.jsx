@@ -6,6 +6,7 @@ import ConfirmRidePopUp from "./components/ConfirmRidePopUp";
 import SocketContext from "../../context/SocketContext";
 import { CaptainDataContext } from "../../context/CaptainContext";
 import { CaptainPanelsContext } from "../../context/CaptainPanels";
+import OTPConfirm from "./components/OTPConfirm";
 
 const CaptainHome = () => {
   const { reciveMessage, sendMessage, socket } = useContext(SocketContext);
@@ -37,7 +38,6 @@ const CaptainHome = () => {
     if (!socket) return;
 
     reciveMessage("new-ride", (data) => {
-      console.log(data);
       setRidePopUpPanel(true);
       setRideDetails(data);
     });

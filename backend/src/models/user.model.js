@@ -42,11 +42,11 @@ userSchema.methods.generateAuthToken = function () {
 userSchema.methods.comparePassword = async function (password) {
   return await becrypt.compare(password, this.password);
 };
+
 // hash password
 userSchema.statics.hashPassword = async function (password) {
   return await becrypt.hash(password, 10);
 };
-
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;

@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, query } = require("express-validator");
 
 const rideCreateArr = [
   body("pickup")
@@ -9,7 +9,7 @@ const rideCreateArr = [
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid user destination locaiton"),
-  body("vehicleType"  )
+  body("vehicleType")
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid user destination locaiton"),
@@ -26,4 +26,13 @@ const getFareArr = [
     .withMessage("Invalid user destination locaiton"),
 ];
 
-module.exports = { rideCreateArr, getFareArr };
+const startridearr = [
+  query("rideId").isMongoId().withMessage("Invalid Ride Id"),
+  query("otp")
+    .isString()
+    .isLength({ min: 6, max: 6 })
+    .withMessage("Invalid OTP"),
+];
+const endridearr = [query("rideId").isMongoId().withMessage("Invalid Ride Id")];
+
+module.exports = { rideCreateArr, getFareArr, startridearr, endridearr };

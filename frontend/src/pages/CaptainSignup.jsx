@@ -39,16 +39,12 @@ const CaptainSignup = () => {
       `${import.meta.env.VITE_BASE_URL}/captains/register`,
       newCaptain
     );
-    console.log(response.status);
 
     if (response.status === 201) {
       const data = response.data;
-      console.log(data.captain);
-      console.log("====================================");
       setCaptain(data.captain);
       localStorage.setItem("token", data.token);
       navigate("/captain-home");
-      console.log(captain);
     }
 
     setFirstName("");

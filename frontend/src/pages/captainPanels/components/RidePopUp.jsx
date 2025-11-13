@@ -12,7 +12,7 @@ const RidePopUp = () => {
   const token = localStorage.getItem("token");
   const [isOPTGet, setIsOPTGet] = useState(false);
   const RidePopUpRef = useRef(null);
-  const { RidePopUpPanel, setRidePopUpPanel, setConfirmRidePopUpPanel } =
+  const { RidePopUpPanel, setRidePopUpPanel } =
     useContext(CaptainPanelsContext);
   const { RideDetails } = useContext(CaptainDataContext);
 
@@ -28,13 +28,7 @@ const RidePopUp = () => {
     }
   }, [RidePopUpPanel]);
 
-  const onConfirmClick = () => {
-    setConfirmRidePopUpPanel(true);
-    setRidePopUpPanel(false);
-  };
-
   const confirmRide = async () => {
-
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/ride/confirm`,
       {
@@ -46,8 +40,12 @@ const RidePopUp = () => {
         },
       }
     );
-    console.log(response);
-    
+    console.log(RideDetails);
+    if (response.status === 200) {
+      setIsOPTGet(true);
+    } else {
+      setRidePopUpPanel(false);
+    }
   };
 
   return (
@@ -125,7 +123,7 @@ const RidePopUp = () => {
           </div>
         </div>
         {isOPTGet ? (
-          <OTPConfirm />
+          <OTPConfirm rideId={RideDetails._id} setRidePopUpPanel={setRidePopUpPanel} />
         ) : (
           <div className="flex justify-center mt-3">
             <button

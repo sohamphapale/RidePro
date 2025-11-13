@@ -4,8 +4,11 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { PanelsDataContext } from "../../../context/PanelsContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LocationSearchPanel = () => {
+ 
+
   const {
     panelOpen,
     setPanelOpen,
@@ -69,8 +72,6 @@ const LocationSearchPanel = () => {
   };
 
   const handleSuggestionClick = async (suggestion, Location, type) => {
-    console.log(Location);
-
     if (type === "pickup") {
       await setPickup(suggestion);
       setPickLocation(Location);
@@ -93,7 +94,6 @@ const LocationSearchPanel = () => {
           destination: suggestion,
         },
       });
-      console.log(response.data);
       await setFare(response.data);
       setVehivlePanel(true);
       setPanelOpen(false);
